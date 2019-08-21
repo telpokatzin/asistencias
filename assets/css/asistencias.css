@@ -1,0 +1,28 @@
+.content-preloader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.42);
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.hide {
+    display: none;
+}
+
+/***INPUT ERROR****/
+.input-group > .form-control {
+    width: calc(100% - 56px);
+}
+
+.input-group > .form-control + .error {
+    font-size: .8rem;
+    color: #f44336;
+    padding-left: 56px;
+}
+/***END INPUT ERROR****/
