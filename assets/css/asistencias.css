@@ -25,4 +25,8 @@
     color: #f44336;
     padding-left: 56px;
 }
+
+label.error > i.icon-middle {
+    vertical-align: middle;
+}
 /***END INPUT ERROR****/
