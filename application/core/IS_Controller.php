@@ -8,6 +8,8 @@ class IS_Controller extends CI_Controller {
 
         /** Verificamos la autenticacion del usuario */
         self::check_userAuthentication() OR exit();
+        self::encryption_initialize();
+        !isset($_POST['dataEncription']) OR $this->decripterData();
 
         //FORMATO DE FECHAS
         define('DATEFORMAT', get_var('dateFormat'));
@@ -18,6 +20,34 @@ class IS_Controller extends CI_Controller {
         if(get_var('log_onoff') && $this->session->userdata('is_logged')) {
             LogTxt($this->session->get_userdata(), LOCALPATH.get_var('log_path_access'));
         }
+    }
+
+    private function encryption_initialize() {
+        $this->encryption->initialize(
+            array(
+                 'cipher'   => 'aes-256'
+                ,'mode'     => 'cbc'
+                ,'key'      => bin2hex(get_var('custom_key_IS'))
+            )
+        );
+    }
+
+    /**
+     * Descencriptamos los datos y lo pasamos al $_POST
+     * @return Void String
+     */
+    protected function decripterData() {
+        $JSONString = $this->encryption->decrypt($this->input->post('dataEncription'));
+        $data = json_decode($JSONString, TRUE);
+        unset($_POST['dataEncription']);
+
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                $_POST[$key] = $value;
+            }
+        }
+
+        return TRUE;
     }
 
     protected function check_userAuthentication($login=FALSE) {
@@ -146,42 +176,6 @@ class IS_Controller extends CI_Controller {
         if($return) return $this->parser->parse($view.$ext, $data, $return);
 
         $this->parser->parse($view.$ext, $data, $return);
-    }
-
-    public function load_view_individual($view=FALSE, $data=array(), $Fincludes=array(), $folder='main', $ext='.html') {
-        $ext             = ($ext!='.html')? '' : $ext;
-        $includes        = self::get_file_includes($Fincludes);
-        $includes_header = $includes['header'];
-        $includes_footer = $includes['footer'];
-        $dataPage        = array('page_content' => '');
-        $parse           = array();
-
-        // INCLUDES HEADER Y WIDGETS
-        // SE CARGAN EL CORE Y LOS PLUGINS DEL SISTEMA ADEMAS DE LOS JS Y CSS EXTRAS
-        $dataPage['includes_header'] = $this->parser_view("$folder/includes-header", $parse, TRUE, $includes_header);
-        $dataPage['includes_vendor'] = $this->parser_view("$folder/includes-vendor" , $parse);
-        //FIN HEADER Y WIDGETS
-
-        // Estructura de la pagina
-        $dataPage['page_header'] = '';
-        $dataPage['page_footer'] = '';
-
-        //SE CARGA EL CONTENIDO DE LA PAGINA
-        if($view) {
-            $dataContent['page-header'] = '';
-            $dataContent['page-footer'] = '';
-            $dataContent['content']     = $this->parser_view($view, $data);
-            $dataContent['titulo']      = isset($dat['titulo'])     ? $data['titulo'] : '';
-            $dataContent['subtitulo']   = isset($data['subtitulo']) ? $data['subtitulo'] : '';
-            $dataPage['page_content']   = $this->parser_view("$folder/page-content", $dataContent);
-        }
-
-        // FOOTER
-        $dataPage['includes_footer'] = $this->parser_view("$folder/includes-footer", $parse, TRUE, $includes_footer);
-        $dataPage['body_class']  = isset($data['body_class']) ? $data['body_class'] : ''; 
-        $dataPage['PRELOADER']   = $this->parser_view("$folder/preloader", array());
-
-        $this->parser_view("$folder/tpl-individual", $dataPage, FALSE);
     }
 
     private function get_file_includes(array $files) {

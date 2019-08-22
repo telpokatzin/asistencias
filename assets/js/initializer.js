@@ -115,10 +115,8 @@
     /*******************************************/
     /****       INIT TOOLTIPED              ****/
     /*******************************************/
-    setTimeout(function() {
-        if($(IS.initializer.tooltip).length) {
-            initTooltipped(IS.initializer.tooltip);
-        }
-    }, 1000);
+    if($(IS.initializer.tooltip).length) {
+        initTooltipped(IS.initializer.tooltip);
+    }
 
 })(jQuery);

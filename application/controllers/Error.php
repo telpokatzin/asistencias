@@ -4,8 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Error extends IS_Controller {
 
 	public function error404() {
-		$dataView['body_class'] = 'off-canvas-sidebar';
-		$this->load_view_individual('errors/error_404', $dataView);
+		$this->parser_view('errors/error_404', array(), FALSE);
 	}
 
 }

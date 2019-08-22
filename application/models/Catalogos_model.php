@@ -9,9 +9,8 @@ class Catalogos_model extends IS_Model {
 		!isset($data['id_empresa']) OR $this->db->where("CE.id_empresa_nomina IN($data[id_empresa])");
 		$request = $this->db->select("CE.*", FALSE)
 			->from("$tbl[empresas] AS CE")
-			->join("$tbl[configuraciones_empresas] AS SEC", 'SEC.id_empresa=CE.id_empresa', 'INNER')
+			->join("$tbl[configuraciones_empresas] AS SEC", 'SEC.id_empresa=CE.id_empresa', 'LEFT')
 			->where('CE.activo', 1)
-			->where('SEC.activo', 1)
 			->where('CE.id_empresa !=', 1)
 			->group_by('CE.id_empresa')
 			->get();

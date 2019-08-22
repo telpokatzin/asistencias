@@ -91,24 +91,25 @@ function initDataTable(element, options) {
             //AGREGAMOS EL BOTON DE DESCARGAR
             if (recordsTotal && config.btnDownload) {
                 var klass = config.bntDownloadClass;
-                $('<button />', {
+                $('<a />', {
                      class: 'btn btn-info btn-round btn-fab btn-sm download-file tooltipped '+klass
                     ,title: general_lang.descargar
                     ,html: '<i class="material-icons">cloud_download</i>'
                 }).appendTo(toolbar);
-                console.log('toolbar agregado 1')
             }
 
             //AGREGAMOS EL BOTON DE AGREGAR
             if (config.btnAdd) {
                 var klass = config.btnAddClass;
-                $('<button />', {
+                $('<a />', {
                      class: 'btn btn-success btn-round btn-fab btn-sm add-item tooltipped '+klass
                     ,title: general_lang.nuevo
                     ,html: '<i class="material-icons">add</i>'
                 }).appendTo(toolbar);
-                console.log('toolbar agregado 2')
             }
+
+            //INIT TOOLTIPS
+            initTooltipped('#'+settings.nTableWrapper.id+ ' .tooltipped');
         }
         ,language: {
             url: base_url('assets/js/language/'+ language +'/datatables_'+ language +'.json')
@@ -368,7 +369,6 @@ function initTooltipped(el, options) {
     options = options ? options : {};
     var settings = $.extend({}, Opdefault, options);
     $(selector).tooltip(settings);
-    console.log('tooltiped iniciado');
 }
 
 

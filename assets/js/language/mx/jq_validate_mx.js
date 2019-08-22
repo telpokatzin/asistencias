@@ -12,7 +12,7 @@
  * Translated default messages for the jQuery validation plugin.
  * Locale: ES (Spanish; Español)
  */
-var ico_error = '<i class="material-icons ico-middle">error_outline</i> ';
+var ico_error = '<i class="material-icons icon-middle">error_outline</i> ';
 $.extend( $.validator.messages, {
 	required: ico_error + "Este campo es obligatorio.",
 	remote: ico_error + "Por favor, rellena este campo.",

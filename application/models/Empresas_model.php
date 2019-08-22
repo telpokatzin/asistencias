@@ -6,6 +6,10 @@ class Empresas_model extends IS_Model {
 	public function get_empresa(array $data, $all=TRUE) {
 		$tbl = $this->tbl;
 
+		!isset($data['diferent']) 		OR $this->db->where('id_empresa !=', $data['diferent']);
+		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
+		!isset($data['empresa']) 		OR $this->db->where('empresa', $data['empresa']);
+		!isset($data['razon_social']) 	OR $this->db->where('razon_social', $data['razon_social']);
 		$request = $this->db->select('*')
 			->where('activo', 1)
 			->where('id_empresa !=', 1)
@@ -23,7 +27,7 @@ class Empresas_model extends IS_Model {
 		return $error['message'] ? FALSE : ($batch?TRUE:$this->db->insert_id());
 	}
 
-	public function update_empresa(array $data, $affected_rows=FALSE) {
+	public function update_empresa(array $data, $affected_rows=TRUE) {
 		$tbl = $this->tbl;
 
 		$this->db->where('id_empresa', $data['id_empresa'])
