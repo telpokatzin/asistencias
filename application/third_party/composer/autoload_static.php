@@ -11,6 +11,10 @@ class ComposerStaticInit5160af77e08ac08ced1b39192435f677
     );
 
     public static $prefixLengthsPsr4 = array (
+        'y' => 
+        array (
+            'yidas\\' => 6,
+        ),
         'p' => 
         array (
             'phpseclib\\' => 10,
@@ -26,6 +30,10 @@ class ComposerStaticInit5160af77e08ac08ced1b39192435f677
     );
 
     public static $prefixDirsPsr4 = array (
+        'yidas\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yidas/codeigniter-rest/src',
+        ),
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',

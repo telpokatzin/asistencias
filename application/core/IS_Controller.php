@@ -62,7 +62,7 @@ class IS_Controller extends CI_Controller {
                 }
             
             //PEDIMOS LA AUTENTICACION DEL USUARIO
-            } elseif ($login || (!in_array($uri, $uriLogin) && !strstr($uri, 'pruebas'))) {
+            } elseif ($login || (!in_array($uri, $uriLogin) && !strstr($uri, 'pruebas')) AND strstr($uri, 'api/') === FALSE) {
                 $this->lang->load('login', config_item('language'));
                 $dataView['base_url']       = base_url();
                 $dataView['login_username'] = lang('login_username');

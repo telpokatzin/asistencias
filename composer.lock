@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e13e9ce3fe88139dcf6dd0154675f9e4",
+    "content-hash": "0bf3e1d6c821e442db98fddc22fbe026",
     "packages": [
         {
             "name": "dompdf/dompdf",
@@ -415,6 +415,43 @@
                 "stylesheet"
             ],
             "time": "2016-07-19T19:14:21+00:00"
+        },
+        {
+            "name": "yidas/codeigniter-rest",
+            "version": "1.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yidas/codeigniter-rest.git",
+                "reference": "7630c646f1d1294e3d9fd65a716e8a2b3ecc5bc7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yidas/codeigniter-rest/zipball/7630c646f1d1294e3d9fd65a716e8a2b3ecc5bc7",
+                "reference": "7630c646f1d1294e3d9fd65a716e8a2b3ecc5bc7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "yidas\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "CodeIgniter 3 RESTful API Resource Base Controller",
+            "homepage": "https://github.com/yidas/codeigniter-rest",
+            "keywords": [
+                "api",
+                "authorization",
+                "codeigniter",
+                "controller"
+            ],
+            "time": "2019-02-27T06:30:36+00:00"
         }
     ],
     "packages-dev": [],

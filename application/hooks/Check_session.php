@@ -13,7 +13,7 @@ class Check_session {
 
 		//Si la peticion es parte de la autenticación ó un API REST, 
 		//agregamos a la lista de controladores permitidos
-		if (strstr($uriString, 'auth') || strstr($uriString, 'api') || strstr($uriString, 'pruebas') || $isLogged) {
+		if (strstr($uriString, 'auth') || strstr($uriString, 'api/') || strstr($uriString, 'pruebas') || $isLogged) {
 			array_push($sites_availables, $uriString);
 		}
 

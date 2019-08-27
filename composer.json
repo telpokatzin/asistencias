@@ -24,7 +24,7 @@
 		,"dompdf/dompdf": "dev-master"
 		,"phpmailer/phpmailer": "5.2.*"
 		,"phpseclib/phpseclib": "~2.0"
-		,"yidas/codeigniter-rest": "1.7.0"
+		,"yidas/codeigniter-rest": "^1.7"
 	},
 	"suggest": {
 		
