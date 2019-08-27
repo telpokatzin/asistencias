@@ -125,7 +125,7 @@ function initDataTable(element, options) {
         ,iDisplayLength: 10
         ,bFilter: false
         ,ordering: true
-        ,processing: true
+        ,processing: false
         ,btnDownload: false
         ,bntDownloadClass: ''
         ,btnAdd: false

@@ -23,7 +23,7 @@ class Pruebas extends Is_Controller {
 	public function email() {
 		$data = array(
 			 // 'message' 	=> 'Correo de Pruebas'
-			 'message' 	=> $this->load_view_unique("mail/prueba", $this->session->userdata(), TRUE)
+			 'message' 	=> $this->parser_view("mail/prueba", $this->session->userdata(), TRUE)
 			,'titulo' 	=> 'Pruebas'
 			,'view' 	=> 'main-template'
 			,'asunto' 	=> 'Pruebas'
@@ -47,7 +47,7 @@ class Pruebas extends Is_Controller {
 	 */
 	public function excel() {
 		$setting = array(
-			 'filename' 			=> 'Reportes_PruebaIS_'.date('Ymd_His')
+			 'filename' 			=> 'Compila_Ideas_'.date('Ymd_His')
 			,'report_information' 	=> array(
 				 array('cell'=> 'A1',	'text' => date('Y-m-d H:i:s'))
 				,array('cell'=> 'B1', 	'text' => 1)

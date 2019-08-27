@@ -24,7 +24,7 @@ class Correos {
 			,'anio' 			=> date('Y')
 			,'mail_click_aqui' 	=> str_replace('{custom_url}', $url_system, lang('mail_click_aqui'))
 		);
-		$htmlTPL = $CI->load_view_unique("mail/$view", $htmlData, TRUE);
+		$htmlTPL = $CI->parser_view("mail/$view", $htmlData);
 		// echo $htmlTPL;
 		// exit;
 	

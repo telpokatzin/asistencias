@@ -20,6 +20,19 @@ jQuery(function($) {
 	$('.main-panel')
 
 	/**
+	 * Element: <a.settings>
+	 * Event: Click
+	 * Description: Redireccionamiento a la vista de configuracion de la empresa
+	 */
+	 .on('click', 'a.settings', function(e) {
+	 	var tr = $(this).closest('tr');
+
+		form_send(tr.data(), base_url('empresas/configuraciones'));
+
+		e.preventDefault();
+	})
+
+	/**
 	 * Element: <a.edit>
 	 * Event: Click
 	 * Description: Edición de la empresa
@@ -35,7 +48,7 @@ jQuery(function($) {
 				$('#content-modals').html(response);
 				$('#content-modals .modal').modal();
 	 		}
-	 	})
+	 	});
 
 		e.preventDefault();
 	})

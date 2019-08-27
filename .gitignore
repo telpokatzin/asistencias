@@ -17,3 +17,9 @@ application/logs/*
 /vendor/
 application/cfg/*
 !application/cfg/index.html
+logs/access/*
+logs/ci/*
+logs/email/*
+!logs/access/index.html
+!logs/ci/index.html
+!logs/email/index.html

@@ -1,0 +1,35 @@
+{
+	"description": "Compila Ideas Framework",
+	"name": "compilaideas/frameworkci",
+	"type": "project",
+	"homepage": "http://compilaideas.com.mx",
+	"license": "proprietary",
+	"authors": [
+        {
+            "name": "Desarrolladores Compila Ideas" ,
+            "email": "developers@compilaideas.com.mx"
+        }
+    ],
+	"support": {
+		"site": "http://compilaideas.com.mx"
+	},
+	"config": {
+        "vendor-dir": "application/third_party"
+    },
+    "autoload": {
+    },
+	"require": {
+		 "php": ">=5.2.4"				
+		,"phpoffice/phpexcel": "1.8.*"
+		,"dompdf/dompdf": "dev-master"
+		,"phpmailer/phpmailer": "5.2.*"
+		,"phpseclib/phpseclib": "~2.0"
+		,"yidas/codeigniter-rest": "1.7.0"
+	},
+	"suggest": {
+		
+	},
+	"require-dev": {
+		
+	}
+}

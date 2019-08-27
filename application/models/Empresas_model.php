@@ -42,6 +42,49 @@ class Empresas_model extends IS_Model {
 
 		return $affected_rows ? $affected : TRUE;
 	}
+
+	public function get_contactosRH_empresa(array $data, $all=TRUE) {
+		$tbl = $this->tbl;
+
+		!isset($data['diferent']) 		OR $this->db->where('id_contacto_rh !=', $data['diferent']);
+		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
+		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
+		$request = $this->db->select('*')
+			->where('activo', 1)
+			->get($tbl['contactos_rh']);
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
+
+	public function update_contactoRH(array $data, $affected_rows=TRUE) {
+		$tbl = $this->tbl;
+
+		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
+		$this->db->where('id_empresa', $data['id_empresa'])
+			->update($tbl['contactos_rh'], $data);
+		$affected = $this->db->affected_rows();
+
+		$error = $this->db->error();
+		if ($error['message']) {
+			log_message('error', $error['message']);
+			return FALSE;
+		}
+
+		return $affected_rows ? $affected : TRUE;
+	}
+
+	public function get_contactos_rh(array $data, $all=TRUE) {
+		$tbl = $this->tbl;
+
+		!isset($data['diferent']) 		OR $this->db->where('id_contacto_rh !=', $data['diferent']);
+		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
+		$request = $this->db->select('*')
+			->where('activo', 1)
+			->where('id_empresa', $data['id_empresa'])
+			->get($tbl['contactos_rh']);
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
 }
 
 /* End of file Empresas_model.php */

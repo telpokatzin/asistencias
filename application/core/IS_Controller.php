@@ -63,6 +63,7 @@ class IS_Controller extends CI_Controller {
             
             //PEDIMOS LA AUTENTICACION DEL USUARIO
             } elseif ($login || (!in_array($uri, $uriLogin) && !strstr($uri, 'pruebas'))) {
+                $this->lang->load('login', config_item('language'));
                 $dataView['base_url']       = base_url();
                 $dataView['login_username'] = lang('login_username');
                 $dataView['login_password'] = lang('login_password');
@@ -75,7 +76,7 @@ class IS_Controller extends CI_Controller {
                 $dataView['JS_PATH']        = base_url(get_var('path_js'));
                 $dataView['CSS_PATH']       = base_url(get_var('path_css'));
                 $dataView['VENDOR_PATH']    = base_url(get_var('path_vendor'));
-
+                
                 $view = $this->parser->parse('login.html', $dataView, TRUE);
                 echo $view;
 
