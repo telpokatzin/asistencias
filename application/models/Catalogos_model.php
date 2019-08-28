@@ -64,76 +64,7 @@ class Catalogos_model extends IS_Model {
 
 		return $all ? $request->result_array() : $request->row_array();
 	}
-
-	public function get_preguntas_empresa(array $data, $all=TRUE) {
-		$tbl = $this->tbl;
-
-		isset($data['id_pregunta']) AND $this->db->where("CPE.id_pregunta IN($data[id_pregunta])");
-		isset($data['id_pais_nomina']) AND $this->db->where("CPE.id_pais_nomina IN($data[id_pais_nomina])");
-		isset($data['id_empresa_nomina']) AND $this->db->where("CPE.id_empresa_nomina IN($data[id_empresa_nomina])");
-		isset($data['id_empresa_area']) AND $this->db->where('TAE.id_empresa_area', $data['id_empresa_area']);
-		isset($data['id_llave_global']) AND $this->db->where('TAE.id_llave_global', $data['id_llave_global']);
-		isset($data['externo']) AND $this->db->where('TAE.externo', $data['externo']);
-		$request = $this->db->select("
-				 CPE.id_pregunta_empresa
-				,CPE.id_empresa_area
-				,CP.id_pregunta
-				,CP.pregunta
-				,CP.indicaciones
-				,CR.type
-				,CR.label
-				,CR.class
-				,CPR.id_respuesta
-				,CPR.key_respuesta
-				,CPR.class_respuesta
-			", FALSE)
-			->from("$tbl[preguntas_empresas] AS CPE")
-			->join("$tbl[empresas_areas] AS TEA", 'CPE.id_pais_nomina=TEA.id_pais_nomina AND CPE.id_empresa_nomina=TEA.id_empresa_nomina AND CPE.id_empresa_area=TEA.id_empresa_area', 'LEFT')
-			->join("$tbl[areas_encargados] AS TAE", 'TEA.id_empresa_area=TAE.id_empresa_area AND TAE.activo=1', 'LEFT')
-			->join("$tbl[preguntas] AS CP", 'CPE.id_pregunta=CP.id_pregunta', 'LEFT')
-			->join("$tbl[preguntas_respuestas] AS CPR", 'CPE.id_pregunta=CPR.id_pregunta AND CPR.activo=1', 'LEFT')
-			->join("$tbl[respuestas] AS CR", 'CPR.id_respuesta=CR.id_respuesta', 'LEFT')
-			// ->where('TEA.activo', 1)
-			->where('CPE.type', $data['type'])
-			->where('CPE.activo', 1)
-			->order_by('CPE.orden, CPR.orden')
-			->get();
-
-		// debug($this->db->last_query());
-		return $all ? $request->result_array() : $request->row_array();
-	}
-
-	public function get_areas(array $data, $all=TRUE) {
-		$tbl = $this->tbl;
-
-		isset($data['id_empresa_area']) AND $this->db->where("TEA.id_empresa_area IN($data[id_empresa_area])");
-		isset($data['id_pais_nomina']) AND $this->db->where("TEA.id_pais_nomina IN($data[id_pais_nomina])");
-		isset($data['id_empresa_nomina']) AND $this->db->where("TEA.id_empresa_nomina IN($data[id_empresa_nomina])");
-		$request = $this->db->select("CA.*")
-			->from("$tbl[empresas_areas] AS TEA")
-			->join("$tbl[areas] AS CA", 'TEA.id_area=CA.id_area', 'LEFT')
-			->where('TEA.activo', 1)
-			->order_by('CA.area')
-			->get();
-
-		// debug($this->db->last_query());
-		return $all ? $request->result_array() : $request->row_array();
-	}
-
-	public function get_contactos_rh(array $data, $all=TRUE) {
-		$tbl = $this->tbl;
-
-		$request = $this->db->select("VWP.*")
-			->from("$tbl[contactos_rh] AS CCRH")
-			->join("$tbl[personales] AS VWP", 'CCRH.id_llave_global=VWP.id_llave_global AND CCRH.externo=VWP.externo', 'INNER')
-			->where("CCRH.id_pais_nomina IN($data[id_pais_nomina])")
-			->where("CCRH.id_empresa_nomina IN($data[id_empresa_nomina])")
-			->where('CCRH.activo', 1)
-			->get();
-
-		// debug($this->db->last_query());
-		return $all ? $request->result_array() : $request->row_array();
-	}
+	
 }
 
 /* End of file Catalogos_model.php */

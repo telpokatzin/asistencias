@@ -16,5 +16,8 @@ class IS_Model extends CI_Model {
 		$this->tbl['contactos_rh']				= "$asistencias.tbl_contactos_rh";
 		$this->tbl['coord_asistencias']			= "$asistencias.tbl_coord_asistencias";
 		$this->tbl['empleados']					= "$asistencias.tbl_empleados";
+		$this->tbl['empleados_tmp']				= "$asistencias.tbl_empleados_tmp";
+		$this->tbl['turnos_empleados']			= "$asistencias.tbl_turnos_empleados";
+		$this->tbl['turnos_empresas']			= "$asistencias.tbl_turnos_empresas";
 	}
 }

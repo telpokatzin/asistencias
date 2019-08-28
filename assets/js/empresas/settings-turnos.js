@@ -1,18 +1,24 @@
 jQuery(function($) {
-	initDataTable('#contactos-rh', {
+	initDataTable('#turnos', {
 		 ajax: {
-		 	url: base_url('empresas/get_contacto_rh')
+		 	url: base_url('empresas/get_turnos_empresa')
 	    	,dataSrc: ''
 	    	,method: 'post'
 	    	,dataType: 'json'
 	    	,data: {dataEncription: $('#dataEncription').val()}
 		}
+        ,select: {
+            style:    'os',
+            selector: 'td:first-child'
+        }
 		,createdRow: function (row, data, dataIndex) {
-            $(row).data({id_contacto_rh: data.id_contacto_rh, id_empresa: data.id_empresa});
+            $(row).data({id_turno_empresa: data.id_turno_empresa, id_empresa: data.id_empresa});
         }
 		,columns: [
-			 {data: 'nombre'}
-			,{data: 'correo'}
+			 {orderable: false, className: 'select-checkbox', data: function() {return '';}}
+			,{data: 'turno'}
+			,{data: 'custom_entrada'}
+			,{data: 'custom_salida'}
 			,{className: 'text-right', data: function(data) {
 					return $('.content-btns').html().replace(/no-autoinit/g, '');
 				}
@@ -27,7 +33,7 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Abrimos el modal para la edisión del contacto RH
 	 */
-	 .on('click', '#contactos-rh a.edit', function(e) {
+	 .on('click', '#turnos a.edit', function(e) {
 	 	var tr = $(this).closest('tr');
 
 	 	$.fn.formAjaxSend({
@@ -48,7 +54,7 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Eliminación del contacto RH
 	 */
-	.on('click', '#contactos-rh a.remove', function(e) {
+	.on('click', '#turnos a.remove', function(e) {
    		var tr = $(this).closest('tr');
 		swal({
             title: general_lang.esta_seguro,
@@ -78,7 +84,7 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Abrimos el modal para el registro de un nuevo contacto RH.
 	 */
-	.on('click', '#contactos-rh_wrapper a.add-item', function(e) {
+	.on('click', '#turnos_wrapper a.add-item', function(e) {
 		$.fn.formAjaxSend({
 			 url: base_url('empresas/get_modal_nuevo_CRH')
 			,data:{dataEncription: $('#dataEncription').val()}

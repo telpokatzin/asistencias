@@ -7,7 +7,7 @@
         </div>
         <div class="card-body ">
             <div class="row">
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-success card-header-icon">
                                 <div class="card-icon">
@@ -20,14 +20,14 @@
                                 <thead class="text-gray">
                                     <th>{general_nombre}</th>
                                     <th>{general_correo}</th>
-                                    <th>{general_acciones}</th>
+                                    <th width="90">{general_acciones}</th>
                                 </thead>
                             </table>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-sm-12 col-md-6">
+                <div class="col-sm-12 col-md-12">
                     <div class="card">
                         <div class="card-header card-header-success card-header-icon">
                             <div class="card-icon">
@@ -36,26 +36,14 @@
                             <h4 class="card-title">{empresas_turnos}</h4>
                         </div>
                         <div class="card-body table-responsive">
-                            <table id="turnos" class="table table-hover" data-btn-Add="true">
+                            <table id="turnos" class="table table-hover no-autoinit" data-btn-Add="true">
                                 <thead class="text-gray">
+                                    <th></th>
                                     <th>{empresas_turno}</th>
+                                    <th>{general_hora_entrada}</th>
+                                    <th>{general_hora_salida}</th>
                                     <th>{general_acciones}</th>
                                 </thead>
-                                <tbody>
-                                    {dataTable}
-                                    <tr data-id_empresa="{id_empresa}">
-                                        <td>{nombre}</td>
-                                        <td class="text-right">
-                                            <a href="#" class="btn btn-link btn-warning btn-just-icon edit-crh tooltipped no-autoinit" title="<?= $general_editar ?>">
-                                                <i class="material-icons">edit</i>
-                                            </a>
-                                            <a href="#" class="btn btn-link btn-danger btn-just-icon remove-crh tooltipped no-autoinit" title="<?= $general_delete ?>">
-                                                <i class="material-icons">close</i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                    {/dataTable}
-                                </tbody>
                             </table>
                         </div>
                     </div>

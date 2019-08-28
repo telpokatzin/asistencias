@@ -43,19 +43,6 @@ class Empresas_model extends IS_Model {
 		return $affected_rows ? $affected : TRUE;
 	}
 
-	public function get_contactosRH_empresa(array $data, $all=TRUE) {
-		$tbl = $this->tbl;
-
-		!isset($data['diferent']) 		OR $this->db->where('id_contacto_rh !=', $data['diferent']);
-		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
-		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
-		$request = $this->db->select('*')
-			->where('activo', 1)
-			->get($tbl['contactos_rh']);
-
-		return $all ? $request->result_array() : $request->row_array();
-	}
-
 	public function update_contactoRH(array $data, $affected_rows=TRUE) {
 		$tbl = $this->tbl;
 
@@ -78,10 +65,37 @@ class Empresas_model extends IS_Model {
 
 		!isset($data['diferent']) 		OR $this->db->where('id_contacto_rh !=', $data['diferent']);
 		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
+		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
+		!isset($data['correo']) 		OR $this->db->where('correo', $data['correo']);
 		$request = $this->db->select('*')
 			->where('activo', 1)
-			->where('id_empresa', $data['id_empresa'])
 			->get($tbl['contactos_rh']);
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
+
+	public function insert_contactoRH(array $data, $batch=FALSE) {
+		$tbl = $this->tbl;
+
+		$batch ? $this->db->insert_batch($tbl['contactos_rh'], $data) : $this->db->insert($tbl['contactos_rh'], $data);
+		$error = $this->db->error();
+
+		return $error['message'] ? FALSE : ($batch?TRUE:$this->db->insert_id());
+	}
+
+	public function get_turnos(array $data, $all=TRUE) {
+		$tbl = $this->tbl;
+
+		!isset($data['diferent']) 			OR $this->db->where('id_turno_empresa !=', $data['diferent']);
+		!isset($data['id_turno_empresa']) 	OR $this->db->where('id_turno_empresa', $data['id_turno_empresa']);
+		!isset($data['id_empresa']) 		OR $this->db->where('id_empresa', $data['id_empresa']);
+		!isset($data['turno']) 				OR $this->db->where('turno', $data['turno']);
+		$request = $this->db->select("*
+				,TIME_FORMAT(entrada, '%H:%i') AS custom_entrada
+				,TIME_FORMAT(salida, '%H:%i') AS custom_salida
+			", FALSE)
+			->where('activo', 1)
+			->get($tbl['turnos_empresas']);
 
 		return $all ? $request->result_array() : $request->row_array();
 	}

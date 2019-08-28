@@ -12,8 +12,8 @@ class Empresas extends IS_Controller {
 	}
 
 	public function index() {
-		$dataView['Empresas_empresa'] 	= lang('empresas_empresa');
-		$dataView['Empresas_razon_social'] 	= lang('empresas_razon_social');
+		$dataView['empresas_empresa'] 	= lang('empresas_empresa');
+		$dataView['empresas_razon_social'] 	= lang('empresas_razon_social');
 		$dataView['general_acciones'] 	= lang('general_acciones');
 		$dataView['empresas_settings'] 	= lang('empresas_settings');
 		$dataView['general_editar'] 	= lang('general_editar');
@@ -63,9 +63,9 @@ class Empresas extends IS_Controller {
 	}
 
 	public function get_modal_nueva_empresa() {
-		$dataView['Empresas_nueva_empresa'] = lang('empresas_nueva_empresa');
-		$dataView['Empresas_empresa'] 		= lang('empresas_empresa');
-		$dataView['Empresas_razon_social'] 	= lang('empresas_razon_social');
+		$dataView['empresas_nueva_empresa'] = lang('empresas_nueva_empresa');
+		$dataView['empresas_empresa'] 		= lang('empresas_empresa');
+		$dataView['empresas_razon_social'] 	= lang('empresas_razon_social');
 		$dataView['general_close'] 			= lang('general_close');
 		$dataView['general_save'] 			= lang('general_save');
 
@@ -104,9 +104,9 @@ class Empresas extends IS_Controller {
 	}
 
 	public function get_modal_update_empresa() {
-		$dataView['Empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['Empresas_empresa'] 		 = lang('empresas_empresa');
-		$dataView['Empresas_razon_social'] 	 = lang('empresas_razon_social');
+		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
+		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
+		$dataView['empresas_razon_social'] 	 = lang('empresas_razon_social');
 		$dataView['general_close'] 			 = lang('general_close');
 		$dataView['general_save'] 			 = lang('general_save');
 
@@ -161,14 +161,16 @@ class Empresas extends IS_Controller {
 
 		#LABELS
 		$dataView['empresas_contactos_rh'] 	= lang('empresas_contactos_rh');
-		$dataView['empresas_turnos'] 	= lang('empresas_turnos');
-		$dataView['empresas_turno'] 	= lang('empresas_turno');
-		$dataView['general_nombre'] 	= lang('general_nombre');
-		$dataView['general_correo'] 	= lang('general_correo');
-		$dataView['general_acciones'] 	= lang('general_acciones');
-		$dataView['general_editar'] 	= lang('general_editar');
-		$dataView['general_delete'] 	= lang('general_delete');
-		$dataView['section'] 			= lang('empresas_settings');
+		$dataView['empresas_turnos'] 		= lang('empresas_turnos');
+		$dataView['empresas_turno'] 		= lang('empresas_turno');
+		$dataView['general_nombre'] 		= lang('general_nombre');
+		$dataView['general_correo'] 		= lang('general_correo');
+		$dataView['general_hora_entrada'] 	= lang('general_hora_entrada');
+		$dataView['general_hora_salida'] 	= lang('general_hora_salida');
+		$dataView['general_acciones'] 		= lang('general_acciones');
+		$dataView['general_editar'] 		= lang('general_editar');
+		$dataView['general_delete'] 		= lang('general_delete');
+		$dataView['section'] 				= lang('empresas_settings');
 
 		#DATA
 		$sqlData = $this->input->post();
@@ -178,12 +180,13 @@ class Empresas extends IS_Controller {
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
 		$includes['js'][] = array('name'=>'settings-crh', 'dirname'=>$this->js);
+		$includes['js'][] = array('name'=>'settings-turnos', 'dirname'=>$this->js);
 		$this->load_view("{$this->modulo}/settings", $dataView, $includes);
 	}
 
 	public function get_contacto_rh() {
 		$sqlData = $this->input->post();
-		$contactosRH = $this->db_empresas->get_contactosRH_empresa($sqlData);
+		$contactosRH = $this->db_empresas->get_contactos_rh($sqlData);
 		
 		echo json_encode($contactosRH);
 	}
@@ -239,27 +242,28 @@ class Empresas extends IS_Controller {
 		$this->parser_view("{$this->modulo}/modal-update-contacto-rh", $dataView, FALSE);
 	}
 
-	public function process_update_contacto_rh() {
-		try { debug($_POST);
+	public function process_update_CRH() {
+		try { 
 			$sqlData = array(
-				 'diferent' 		=> $this->input->post('id_empresa')
-				,'empresa' 			=> $this->input->post('empresa')
-				,'razon_social' 	=> $this->input->post('razon_social')
+				 'diferent' 		=> $this->input->post('id_contacto_rh')
+				,'id_empresa' 		=> $this->input->post('id_empresa')
+				,'nombre' 			=> $this->input->post('nombre')
+				,'correo' 			=> $this->input->post('correo')
 				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
 				,'timestamp' 		=> timestamp()
 			);
-			$exist = $this->db_empresas->get_empresa($sqlData);
-			!$exist OR setException(lang('empresas_duplicado'), lang('general_alerta'), 'warning');
+			$exist = $this->db_empresas->get_contactos_rh($sqlData);
+			!$exist OR setException(lang('empresas_crh_duplicado'), lang('general_alerta'), 'warning');
 			unset($sqlData['diferent']);
-			$sqlData['id_empresa'] = $this->input->post('id_empresa');
+			$sqlData['id_contacto_rh'] = $this->input->post('id_contacto_rh');
 
-			$update = $this->db_empresas->update_empresa($sqlData);
+			$update = $this->db_empresas->update_contactoRH($sqlData);
 			$update OR setException();
 			
 			$response = array(
 				 'success' 	=> TRUE
 				,'title' 	=> lang('general_exito')
-				,'msg' 		=> lang('empresas_update_success')
+				,'msg' 		=> lang('empresas_crh_update_success')
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
@@ -272,6 +276,63 @@ class Empresas extends IS_Controller {
 		}
 
 		echo json_encode($response);
+	}
+
+	public function get_modal_nuevo_CRH() {
+		//LANG
+		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
+		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
+		$dataView['general_nombre'] 		 = lang('general_nombre');
+		$dataView['general_correo'] 		 = lang('general_correo');
+		$dataView['general_close'] 			 = lang('general_close');
+		$dataView['general_save'] 			 = lang('general_save');
+
+		//DATA
+		$sqlData 	= $this->input->post();
+		$empresa 	= $this->db_empresas->get_empresa($sqlData, FALSE);
+		$dataView = array_merge($dataView, $empresa);
+
+		$this->parser_view("{$this->modulo}/modal-nuevo-contacto-rh", $dataView, FALSE);
+	}
+
+	public function process_save_contacto_rh() {
+		try {
+			$sqlData = array(
+				 'id_empresa' 	=> $this->input->post('id_empresa')
+				,'nombre' 		=> $this->input->post('nombre')
+				,'correo' 		=> $this->input->post('correo')
+				,'id_usuario' 	=> $this->session->userdata('id_usuario')
+				,'timestamp' 	=> timestamp()
+			);
+			$exist = $this->db_empresas->get_contactos_rh($sqlData);
+			!$exist OR setException(lang('empresas_crh_duplicado'), lang('general_alerta'), 'warning');
+
+			$insert = $this->db_empresas->insert_contactoRH($sqlData);
+			$insert OR setException();
+			
+			$response = array(
+				 'success' 	=> TRUE
+				,'title' 	=> lang('general_exito')
+				,'msg' 		=> lang('empresas_insert_crh_success')
+				,'type' 	=> 'success'
+			);
+		} catch (IS_Exception $e) {
+			$response = array(
+				 'success' 	=> FALSE
+				,'title' 	=> $e->getTitle()
+				,'msg' 		=> $e->getMessage()
+				,'type' 	=> $e->getTypeMessage()
+			);
+		}
+
+		echo json_encode($response);
+	}
+
+	public function get_turnos_empresa() {
+		$sqlData = $this->input->post();
+		$contactosRH = $this->db_empresas->get_turnos($sqlData);
+		
+		echo json_encode($contactosRH);
 	}
 }
 
