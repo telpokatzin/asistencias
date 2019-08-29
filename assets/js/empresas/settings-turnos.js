@@ -7,15 +7,11 @@ jQuery(function($) {
 	    	,dataType: 'json'
 	    	,data: {dataEncription: $('#dataEncription').val()}
 		}
-        ,select: {
-            style:    'os',
-            selector: 'td:first-child'
-        }
 		,createdRow: function (row, data, dataIndex) {
             $(row).data({id_turno_empresa: data.id_turno_empresa, id_empresa: data.id_empresa});
         }
 		,columns: [
-			 {orderable: false, className: 'select-checkbox', data: function() {return '';}}
+			 {orderable: false, className: 'text-center', defaultContent: '<input type="radio" name="turno">'}
 			,{data: 'turno'}
 			,{data: 'custom_entrada'}
 			,{data: 'custom_salida'}
@@ -37,7 +33,7 @@ jQuery(function($) {
 	 	var tr = $(this).closest('tr');
 
 	 	$.fn.formAjaxSend({
-	 		 url: base_url('empresas/get_modal_update_CRH')
+	 		 url: base_url('empresas/get_modal_update_turno')
 	 		,data: tr.data()
 			,dataType: 'html'
 	 		,success: function(response) {
@@ -64,13 +60,15 @@ jQuery(function($) {
         }).then(function(response) {
         	if(response.value) {
         		$('tmp').formAjaxSend({
-        			 url: base_url('empresas/process_remove_CRH')
+        			 url: base_url('empresas/process_remove_turno')
         			,data: tr.data()
         			,success: function(response) {
         				if (response.success) {
+        					tr.addClass('bg-danger');
         					showNotify(response.msg, response.type, 'notification_important');
-        					IS.init.dataTable['contactos-rh'].row(tr).remove().draw();
-
+        					tr.animateCSS('fadeOutLeft', function() {
+        						IS.init.dataTable['turnos'].row(tr).remove().draw();
+        					});
         				} else swal(response.title, response.msg, response.type);
         			}
         		});
@@ -126,7 +124,7 @@ jQuery(function($) {
 				success: function(response) {
 					if (response.success) {
     					showNotify(response.msg, response.type, 'notification_important');
-    					IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
+    					IS.init.dataTable['turnos'].ajax.reload(null, false);
     					$('.modal.show').modal('hide');
     				} else swal(response.title, response.msg, response.type);
 				}
@@ -147,7 +145,7 @@ jQuery(function($) {
 				,success: function(response) {
 					if (response.success) {
     					showNotify(response.msg, response.type, 'notification_important');
-    					IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
+    					IS.init.dataTable['turnos'].ajax.reload(null, false);
     					$('.modal.show').modal('hide');
     				} else swal(response.title, response.msg, response.type);
 				}

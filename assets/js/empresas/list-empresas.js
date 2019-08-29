@@ -72,8 +72,11 @@ jQuery(function($) {
         			,data: tr.data()
         			,success: function(response) {
         				if (response.success) {
+        					tr.addClass('bg-danger');
         					showNotify(response.msg, response.type, 'notification_important');
-        					IS.init.dataTable['empresas'].row(tr).remove().draw();
+        					tr.animateCSS('fadeOutLeft', function() {
+        						IS.init.dataTable['empresas'].row(tr).remove().draw();
+        					});
 
         				} else swal(response.title, response.msg, response.type);
         			}

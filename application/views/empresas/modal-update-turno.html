@@ -1,9 +1,9 @@
-<div class="modal fade" id="modal-new-crh" tabindex="-1" role="dialog" aria-labelledby="new-crh" aria-hidden="true">
+<div class="modal fade" id="modal-update-turno" tabindex="-1" role="dialog" aria-labelledby="update-turno" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <form class="form-new-crh form-validate" action="{base_url}empresas/process_save_contacto_rh">
+        <form class="form-update-turno form-validate" action="{base_url}empresas/process_update_CRH">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="new-crh">{empresas_update_empresa}</h5>
+                    <h5 class="modal-title" id="update-turno">{empresas_update_empresa}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -14,15 +14,20 @@
                         <input type="text" class="form-control validate required" id="empresa" name="empresa" value="{empresa}" readonly>
                     </div>
                     <div class="form-group">
-                        <label for="nombre" class="col-form-label">{general_nombre}:</label>
-                        <input type="text" class="form-control validate required" id="nombre" name="nombre">
+                        <label for="turno" class="col-form-label">{empresas_turno}:</label>
+                        <input type="text" class="form-control validate required" id="turno" name="turno" value="{turno}">
                     </div>
                     <div class="form-group">
-                        <label for="correo" class="col-form-label">{general_correo}:</label>
-                        <input type="text" class="form-control validate required email" id="correo" name="correo">
+                        <label for="entrada" class="col-form-label">{general_hora_entrada}:</label>
+                        <input type="text" class="form-control validate required timepicker" id="entrada" name="entrada" value="{entrada}">
+                    </div>
+                    <div class="form-group">
+                        <label for="salida" class="col-form-label">{general_hora_salida}:</label>
+                        <input type="text" class="form-control validate required timepicker" id="salida" name="salida" value="{salida}">
                     </div>
                 </div>
                 <div class="modal-footer">
+                    <input type="hidden" name="dataEncription" value="{dataEncription}">
                     <button type="button" class="btn btn-link text-danger" data-dismiss="modal">{general_close}</button>
                     <button type="submit" class="btn btn-success">{general_save}</button>
                 </div>

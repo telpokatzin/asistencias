@@ -334,6 +334,58 @@ class Empresas extends IS_Controller {
 		
 		echo json_encode($contactosRH);
 	}
+
+	public function process_remove_turno() {
+		try {
+			$sqlData = array(
+				 'id_turno_empresa' => $this->input->post('id_turno_empresa')
+				,'id_empresa' 		=> $this->input->post('id_empresa')
+				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
+				,'timestamp_edit' 	=> timestamp()
+				,'activo' 			=> 0
+			);
+			$update = $this->db_empresas->update_turno($sqlData);
+			$update OR setException();
+
+			$response = array(
+				 'success' 	=> TRUE
+				,'title' 	=> lang('general_exito')
+				,'msg' 		=> lang('empresas_remove_turno_success')
+				,'type' 	=> 'success'
+			);
+		} catch (IS_Exception $e) {
+			$response = array(
+				 'success' 	=> FALSE
+				,'title' 	=> $e->getTitle()
+				,'msg' 		=> $e->getMessage()
+				,'type' 	=> $e->getTypeMessage()
+			);
+		}
+
+		echo json_encode($response);
+	}
+
+	public function get_modal_update_turno() {
+		//LANG
+		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
+		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
+		$dataView['empresas_turno'] 		 = lang('empresas_turno');
+		$dataView['general_hora_entrada'] 	 = lang('general_hora_entrada');
+		$dataView['general_hora_salida'] 	 = lang('general_hora_salida');
+		$dataView['general_close'] 			 = lang('general_close');
+		$dataView['general_save'] 			 = lang('general_save');
+
+		//DATA
+		$sqlData = $this->input->post();
+		$empresa = $this->db_empresas->get_empresa($sqlData, FALSE);
+		$turno 	 = $this->db_empresas->get_turnos($sqlData, FALSE);
+
+		$dataView = array_merge($dataView, $empresa, $turno);
+		$dataPost = array('id_empresa'=> $empresa['id_empresa'], 'id_turno_empresa'=> $turno['id_turno_empresa']);
+		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
+
+		$this->parser_view("{$this->modulo}/modal-update-turno", $dataView, FALSE);
+	}
 }
 
 /* End of file Empresas.php */

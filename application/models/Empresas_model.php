@@ -91,13 +91,30 @@ class Empresas_model extends IS_Model {
 		!isset($data['id_empresa']) 		OR $this->db->where('id_empresa', $data['id_empresa']);
 		!isset($data['turno']) 				OR $this->db->where('turno', $data['turno']);
 		$request = $this->db->select("*
-				,TIME_FORMAT(entrada, '%H:%i') AS custom_entrada
-				,TIME_FORMAT(salida, '%H:%i') AS custom_salida
+				,TIME_FORMAT(entrada, '%h:%i %p') AS custom_entrada
+				,TIME_FORMAT(salida, '%h:%i %p') AS custom_salida
 			", FALSE)
 			->where('activo', 1)
 			->get($tbl['turnos_empresas']);
 
 		return $all ? $request->result_array() : $request->row_array();
+	}
+
+	public function update_turno(array $data, $affected_rows=TRUE) {
+		$tbl = $this->tbl;
+
+		!isset($data['id_turno_empresa']) OR $this->db->where('id_turno_empresa', $data['id_turno_empresa']);
+		$this->db->where('id_empresa', $data['id_empresa'])
+			->update($tbl['turnos_empresas'], $data);
+		$affected = $this->db->affected_rows();
+
+		$error = $this->db->error();
+		if ($error['message']) {
+			log_message('error', $error['message']);
+			return FALSE;
+		}
+
+		return $affected_rows ? $affected : TRUE;
 	}
 }
 
