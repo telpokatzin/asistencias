@@ -1,10 +1,9 @@
 jQuery(function($) {
+	//Tabla Contactos RH
 	initDataTable('#contactos-rh', {
 		 ajax: {
 		 	url: base_url('empresas/get_contacto_rh')
 	    	,dataSrc: ''
-	    	,method: 'post'
-	    	,dataType: 'json'
 	    	,data: {dataEncription: $('#dataEncription').val()}
 		}
 		,createdRow: function (row, data, dataIndex) {
@@ -20,7 +19,7 @@ jQuery(function($) {
 		]
 	});
 
-	$('.main-panel')//Tabla Contactos RH
+	$('.main-panel')
 
 	/**
 	 * Element: <a.edit>
@@ -36,7 +35,7 @@ jQuery(function($) {
 			,dataType: 'html'
 	 		,success: function(response) {
 				$('#content-modals').html(response);
-				$('#content-modals .modal').modal();
+				initModal('.modal');
 	 		}
 	 	});
 
@@ -81,14 +80,18 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Abrimos el modal para el registro de un nuevo contacto RH.
 	 */
-	.on('click', '#contactos-rh_wrapper a.add-item', function(e) {
+	.on('click', '#contactos-rh_wrapper a.addItem', function(e) {
 		$.fn.formAjaxSend({
 			 url: base_url('empresas/get_modal_nuevo_CRH')
 			,data:{dataEncription: $('#dataEncription').val()}
 			,dataType: 'html'
 			,success: function(response) {
 				$('#content-modals').html(response);
-				initModal('.modal');
+				initModal('.modal', {
+					onOpenEnd: function() {
+						initDataTable('#content-modals table');
+					}
+				});
 			}
 		});
 
@@ -98,19 +101,6 @@ jQuery(function($) {
 
 
 	$('#content-modals')//EVENTO DE LOS MODALES
-	.on('hidden.bs.modal', '.modal', function(e) {
-		$('#content-modals').html('');
-	})
-
-	/**
-	 * Element: <div.#modal-registro-empresa>
-	 * Event: shown.bs.modal
-	 * Description: Agregamos la validación del formulario al abrir el modal
-	 */
-	.on('shown.bs.modal', '.modal', function(e) {
-		$('.modal form.form-validate').validate();
-		e.preventDefault();
-	})
 
 	/**
 	 * Element: <form.form-update-crh>

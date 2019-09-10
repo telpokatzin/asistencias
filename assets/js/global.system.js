@@ -83,6 +83,7 @@ function initDataTable(element, options) {
     var element = element ? element : IS.initializer.dataTable;
     var Opdefault = {
          dom: 'lBfrtip'
+        ,ajax: null
         ,buttons:{
             dom: {
                 container: { className: 'dt-buttons' },
@@ -140,8 +141,12 @@ function initDataTable(element, options) {
         ,btnAddClass: ''
     };
 
-    options = options ? options : {};
+    options = options || {};
     var settings = $.extend({}, Opdefault, options);
+    if (settings.ajax !== null) {
+        settings.ajax.method = 'post';
+        settings.ajax.dataType = 'json';
+    }
    $(element).each(function() {
         var tbl     = $(this);
         var idTable = tbl.prop('id')
@@ -318,26 +323,31 @@ function initModal(el, options) {
 
     $(elems).modal(Opdefault);
 
-    $('#content-modals')
+    $(elems)
 
     //onOpenStart
-    .on('show.bs.modal', '.modal', function() {
+    .on('show.bs.modal', function() {
         if(options.onOpenStart != undefined && options.onOpenStart.constructor == Function) options.onOpenStart();
     })
     
     //onOpenEnd
-    .on('shown.bs.modal', '.modal', function() {
+    .on('shown.bs.modal', function() {
         if(options.onOpenEnd != undefined && options.onOpenEnd.constructor == Function) options.onOpenEnd();
     })
     
     //onCloseStart
-    .on('hide.bs.modal', '.modal', function() {
+    .on('hide.bs.modal', function() {
         if(options.onCloseStart != undefined && options.onCloseStart.constructor == Function) options.onCloseStart();
     })
     
     //Event onCloseEnd
-    .on('hidden.bs.modal', '.modal', function() {
+    .on('hidden.bs.modal', function() {
         if(options.onCloseEnd != undefined && options.onCloseEnd.constructor == Function) options.onCloseEnd();
+        if ($('#content-modals table').length) {
+            var key = $('#content-modals table').attr('id');
+            $('#'+key).DataTable().destroy();
+        }
+        
         $('#content-modals').html('');
     });
 }
