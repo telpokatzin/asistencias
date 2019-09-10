@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class IS_Controller extends CI_Controller {
+class IS_Controller extends MX_Controller {
 
     public function __construct() {
         parent::__construct();
 
         /** Verificamos la autenticacion del usuario */
-        self::check_userAuthentication() OR exit();
+        self::check_userAuthentication();
         self::encryption_initialize();
         !isset($_POST['dataEncription']) OR $this->decripterData();
 
@@ -50,11 +50,12 @@ class IS_Controller extends CI_Controller {
         return TRUE;
     }
 
-    protected function check_userAuthentication($login=FALSE) {
+
+    private function check_userAuthentication() {
         $uriLogin   = array('', 'login', 'login/index');
         $uri        = $this->uri->uri_string();
 
-        if (!$this->input->is_ajax_request()) {
+        if (!$this->input->is_ajax_request() AND strpos($uri, 'apis/') === FALSE) {
             //SI YA ESTA AUTENTICADO, REDIRECCIONAMOS A INICIO
             if ($this->session->userdata('isLogged')) {
                 if (in_array($uri, $uriLogin)) {
@@ -62,29 +63,11 @@ class IS_Controller extends CI_Controller {
                 }
             
             //PEDIMOS LA AUTENTICACION DEL USUARIO
-            } elseif ($login || (!in_array($uri, $uriLogin) && !strstr($uri, 'pruebas')) AND strstr($uri, 'api/') === FALSE) {
-                $this->lang->load('login', config_item('language'));
-                $dataView['base_url']       = base_url();
-                $dataView['login_username'] = lang('login_username');
-                $dataView['login_password'] = lang('login_password');
-                $dataView['login_entrar']   = lang('login_entrar');
-                $dataView['reloadpage']     = $login ? 0 : 1;
-                $dataView['APPTITLE']       = get_var('app_title');
-                $dataView['language']       = config_item('language');
-                $dataView['TEMPLATE_PATH']  = base_url(get_var('path_template'));
-                $dataView['FONTS_PATH']     = base_url(get_var('path_fonts'));
-                $dataView['JS_PATH']        = base_url(get_var('path_js'));
-                $dataView['CSS_PATH']       = base_url(get_var('path_css'));
-                $dataView['VENDOR_PATH']    = base_url(get_var('path_vendor'));
-                
-                $view = $this->parser->parse('login.html', $dataView, TRUE);
-                echo $view;
-
-                return FALSE;
+            } elseif (!in_array($uri, $uriLogin) && !strstr($uri, 'pruebas')) {
+                echo modules::run('global/login/index', TRUE);
+                die();
             }
         }
-
-        return TRUE;
     }
 
     /**
@@ -174,9 +157,7 @@ class IS_Controller extends CI_Controller {
         $data['JS_PATH']        = base_url(get_var('path_js'));
         $data['DOCS_PATH']      = base_url(get_var("path_docs"));
 
-        if($return) return $this->parser->parse($view.$ext, $data, $return);
-
-        $this->parser->parse($view.$ext, $data, $return);
+        return $this->parser->parse($view.$ext, $data, $return);
     }
 
     private function get_file_includes(array $files) {

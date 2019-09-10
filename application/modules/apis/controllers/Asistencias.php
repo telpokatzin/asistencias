@@ -1,7 +1,7 @@
 <?php 
  @include_once(APPPATH.'core/IS_Rest.php');
 
-class Api extends IS_Rest {
+class Asistencias extends IS_Rest {
 
 	public function __construct() {
 		parent::__construct();

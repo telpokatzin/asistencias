@@ -11,7 +11,7 @@ jQuery(function($) {
             $(row).data({id_contacto_rh: data.id_contacto_rh, id_empresa: data.id_empresa});
         }
 		,columns: [
-			 {data: 'nombre'}
+			 {data: 'nombre_completo'}
 			,{data: 'correo'}
 			,{className: 'text-right', data: function(data) {
 					return $('.content-btns').html().replace(/no-autoinit/g, '');
@@ -88,7 +88,7 @@ jQuery(function($) {
 			,dataType: 'html'
 			,success: function(response) {
 				$('#content-modals').html(response);
-				$('#content-modals .modal').modal();
+				initModal('.modal');
 			}
 		});
 

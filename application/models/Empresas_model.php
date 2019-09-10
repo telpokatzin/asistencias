@@ -63,13 +63,35 @@ class Empresas_model extends IS_Model {
 	public function get_contactos_rh(array $data, $all=TRUE) {
 		$tbl = $this->tbl;
 
-		!isset($data['diferent']) 		OR $this->db->where('id_contacto_rh !=', $data['diferent']);
-		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
-		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
-		!isset($data['correo']) 		OR $this->db->where('correo', $data['correo']);
-		$request = $this->db->select('*')
-			->where('activo', 1)
-			->get($tbl['contactos_rh']);
+		!isset($data['diferent']) 		OR $this->db->where('TCRH.id_contacto_rh !=', $data['diferent']);
+		!isset($data['id_contacto_rh']) OR $this->db->where('TCRH.id_contacto_rh', $data['id_contacto_rh']);
+		!isset($data['id_empresa']) 	OR $this->db->where('TCRH.id_empresa', $data['id_empresa']);
+		!isset($data['correo']) 		OR $this->db->where('TE.correo', $data['correo']);
+		$request = $this->db->select("TE.*
+				,TCRH.id_contacto_rh
+				,CONCAT_WS(' ', COALESCE(TE.nombre, ''), COALESCE(TE.paterno, ''), , COALESCE(TE.materno, '')) AS nombre_completo
+			", FALSE)
+			->from("$tbl[contactos_rh] AS TCRH")
+			->join("$tbl[empleados] AS TE", 'TCRH.id_empleado=TE.id_empleado', 'LEFT')
+			->where('TE.activo', 1)
+			->where('TCRH.activo', 1)
+			->get();
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
+
+	public function get_colaboradores_noCRH(array $data, $all=TRUE) {
+		$tbl = $this->tbl;
+
+		$request = $this->db->select("TE.*
+				,CONCAT_WS(' ', COALESCE(TE.nombre, ''), COALESCE(TE.paterno, ''), , COALESCE(TE.materno, '')) AS nombre_completo
+			", FALSE)
+			->from("$tbl[empleados] AS TE")
+			->join("$tbl[contactos_rh] AS TCRH", 'TCRH.id_empleado=TE.id_empleado AND TCRH.activo=1', 'LEFT')
+			->where('TE.id_empresa', $data['id_empresa'])
+			->where('TE.activo', 1)
+			->where('TCRH.id_empleado', NULL)
+			->get();
 
 		return $all ? $request->result_array() : $request->row_array();
 	}

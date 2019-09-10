@@ -280,17 +280,16 @@ class Empresas extends IS_Controller {
 
 	public function get_modal_nuevo_CRH() {
 		//LANG
-		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
-		$dataView['general_nombre'] 		 = lang('general_nombre');
-		$dataView['general_correo'] 		 = lang('general_correo');
-		$dataView['general_close'] 			 = lang('general_close');
-		$dataView['general_save'] 			 = lang('general_save');
+		$dataView['empresas_contactos_rh'] 	= lang('empresas_contactos_rh');
+		$dataView['general_nombre'] 		= lang('general_nombre');
+		$dataView['general_correo'] 		= lang('general_correo');
+		$dataView['general_close'] 			= lang('general_close');
+		$dataView['general_acciones'] 		= lang('general_acciones');
 
 		//DATA
-		$sqlData 	= $this->input->post();
-		$empresa 	= $this->db_empresas->get_empresa($sqlData, FALSE);
-		$dataView = array_merge($dataView, $empresa);
+		$sqlData 		= $this->input->post();
+		$colaboradores 	= $this->db_empresas->get_colaboradores_noCRH($sqlData);
+		$dataView['dataTable'] = $colaboradores;
 
 		$this->parser_view("{$this->modulo}/modal-nuevo-contacto-rh", $dataView, FALSE);
 	}

@@ -82,34 +82,47 @@ function isInt(x) {
 function initDataTable(element, options) {
     var element = element ? element : IS.initializer.dataTable;
     var Opdefault = {
-         dom: 'l<"toolbar">frtip'
+         dom: 'lBfrtip'
+        ,buttons:{
+            dom: {
+                container: { className: 'dt-buttons' },
+                button: { tag: 'a', className: 'btn btn-round btn-fab btn-sm'},
+                buttonLiner: ''
+            },
+            buttons: [
+                { extend: 'colvis', columns: ':not(.noVis)', text: '<i class="material-icons">menu</i>', className: 'bg-secondary tooltips' },
+                { text: '<i class="material-icons">cloud_download</i>', className: 'btn-info download-file tooltips' },
+                { text: '<i class="material-icons">cloud_download</i>', className: 'btn-info download-file tooltips' },
+                { text: '<i class="material-icons">add</i>', className: 'btn-success add-item tooltips' }
+            ]
+        }
         ,initComplete: function(settings, json) {
             var config       = settings.oInit;
             var recordsTotal = settings.fnRecordsTotal();
             var toolbar      = $(settings.nTableWrapper).find(".toolbar");
 
             //AGREGAMOS EL BOTON DE DESCARGAR
-            if (recordsTotal && config.btnDownload) {
-                var klass = config.bntDownloadClass;
-                $('<a />', {
-                     class: 'btn btn-info btn-round btn-fab btn-sm download-file tooltipped '+klass
-                    ,title: general_lang.descargar
-                    ,html: '<i class="material-icons">cloud_download</i>'
-                }).appendTo(toolbar);
-            }
+            // if (recordsTotal && config.btnDownload) {
+            //     var klass = config.bntDownloadClass;
+            //     $('<a />', {
+            //          class: 'btn btn-info btn-round btn-fab btn-sm download-file tooltips '+klass
+            //         ,title: general_lang.descargar
+            //         ,html: '<i class="material-icons">cloud_download</i>'
+            //     }).appendTo(toolbar);
+            // }
 
             //AGREGAMOS EL BOTON DE AGREGAR
-            if (config.btnAdd) {
-                var klass = config.btnAddClass;
-                $('<a />', {
-                     class: 'btn btn-success btn-round btn-fab btn-sm add-item tooltipped '+klass
-                    ,title: general_lang.nuevo
-                    ,html: '<i class="material-icons">add</i>'
-                }).appendTo(toolbar);
-            }
+            // if (config.btnAdd) {
+            //     var klass = config.btnAddClass;
+            //     $('<a />', {
+            //          class: 'btn btn-success btn-round btn-fab btn-sm add-item tooltips '+klass
+            //         ,title: general_lang.nuevo
+            //         ,html: '<i class="material-icons">add</i>'
+            //     }).appendTo(toolbar);
+            // }
 
             //INIT TOOLTIPS
-            initTooltipped('#'+settings.nTableWrapper.id+ ' .tooltipped');
+            initTooltipped($(settings.nTableWrapper).find('.tooltips'));
         }
         ,language: {
             url: base_url('assets/js/language/'+ language +'/datatables_'+ language +'.json')
@@ -301,23 +314,14 @@ function initModal(el, options) {
     var selector = el ? el : IS.initializer.modal;
     var elems = document.querySelectorAll('#content-modals ' + selector);
     var Opdefault = {
-         dismissible: false
-        ,startingTop: '5%'
-        ,endingTop: '5%'
-        ,autoOpen: true
-        ,ready: function() {
-            $('textarea').trigger('autoresize');
-        }
-        ,complete: function() {
-            $("#content-modals").html('');
-        }
+         keyboard: true
+        ,show: true
     };
 
     options = options ? options : {};
     $.extend(Opdefault, options);
 
     $(elems).modal(Opdefault);
-    Opdefault.autoOpen && $(elems).modal('open');
 }
 
 function initSelect2(el, options) {
@@ -361,16 +365,24 @@ function initSelectUI(el, options) {
 }
 
 function initTooltipped(el, options) {
-    var selector = el ? el : IS.initializer.tooltip;
+    if (el.constructor === String) {
+        var selector = el ? el : IS.initializer.tooltip;
+        var elems = document.querySelectorAll(selector);
+    } else elems = el;
+
     var Opdefault = {
-        placement: 'top'
+        position: 'top'
     };
 
     options = options ? options : {};
-    var settings = $.extend({}, Opdefault, options);
-    $(selector).tooltip(settings);
-}
+    $.extend(Opdefault, options);
 
+    $(elems).each(function(index, el) {
+        var settings = $.extend({}, Opdefault, options, $(this).data());
+        
+        $(this).tooltip(settings);
+    });
+}
 
 function showNotify(message, type, icon) {
     $.notify({

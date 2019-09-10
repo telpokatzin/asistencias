@@ -5,7 +5,7 @@ jQuery(function($) {
 	 	 ignore:'.ignore'
 	 	,submitHandler: function(form) {
 	 		$(form).formAjaxSend({
-			 	 url: base_url("login/auth")
+			 	 url: base_url("global/login/auth")
 	 			,success: function(response) {
 	 				var reloadpage = $('button').data('reloadpage');
 

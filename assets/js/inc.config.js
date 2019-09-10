@@ -4,7 +4,7 @@
  * @return base_url String URL del sitio
  */
 function base_url(subdirectory) {
-    var folder      = 'asistencias',
+    var folder      = 'compilaideas',
         pathname    = folder ? location.pathname.split(folder+'/') : [''];
         pathname    = pathname[0].trim('/');
         folder      = (folder && pathname) ? '/' + folder : folder;
