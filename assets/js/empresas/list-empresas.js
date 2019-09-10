@@ -91,13 +91,13 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Abrimos el modal para el registro de una nueva empresa.
 	 */
-	.on('click', 'a.add-item', function(e) {
+	.on('click', 'a.addItem', function(e) {
 		$.fn.formAjaxSend({
 			 url: base_url('empresas/get_modal_nueva_empresa')
 			,dataType: 'html'
 			,success: function(response) {
 				$('#content-modals').html(response);
-				$('#content-modals .modal').modal();
+				initModal('.modal');
 			}
 		});
 
@@ -105,9 +105,6 @@ jQuery(function($) {
 	});
 
 	$('#content-modals')//EVENTO DE LOS MODALES
-	.on('hidden.bs.modal', '.modal', function(e) {
-		$('#content-modals').html('');
-	})
 
 	/**
 	 * Element: <div.#modal-registro-empresa>

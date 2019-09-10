@@ -90,39 +90,34 @@ function initDataTable(element, options) {
                 buttonLiner: ''
             },
             buttons: [
-                { extend: 'colvis', columns: ':not(.noVis)', text: '<i class="material-icons">menu</i>', className: 'bg-secondary tooltips' },
-                { text: '<i class="material-icons">cloud_download</i>', className: 'btn-info download-file tooltips' },
-                { text: '<i class="material-icons">cloud_download</i>', className: 'btn-info download-file tooltips' },
-                { text: '<i class="material-icons">add</i>', className: 'btn-success add-item tooltips' }
+                { extend: 'colvis', columns: ':not(.noVis)', text: '<i class="material-icons">menu</i>', className: 'bg-secondary tooltips hide' },
+                { text: '<i class="material-icons">cloud_download</i>', className: 'btn-info download tooltips hide' },
+                { text: '<i class="material-icons">add</i>', className: 'btn-success addItem tooltips hide' }
             ]
         }
         ,initComplete: function(settings, json) {
             var config       = settings.oInit;
             var recordsTotal = settings.fnRecordsTotal();
-            var toolbar      = $(settings.nTableWrapper).find(".toolbar");
+            var toolBar      = $(settings.nTableWrapper).find('.dt-buttons');
 
             //AGREGAMOS EL BOTON DE DESCARGAR
-            // if (recordsTotal && config.btnDownload) {
-            //     var klass = config.bntDownloadClass;
-            //     $('<a />', {
-            //          class: 'btn btn-info btn-round btn-fab btn-sm download-file tooltips '+klass
-            //         ,title: general_lang.descargar
-            //         ,html: '<i class="material-icons">cloud_download</i>'
-            //     }).appendTo(toolbar);
-            // }
+            if (recordsTotal && config.btnDownload) {
+                toolBar.find('.download').attr('data-tooltip', general_lang.descargar).removeClass('hide');
+            }
 
-            //AGREGAMOS EL BOTON DE AGREGAR
-            // if (config.btnAdd) {
-            //     var klass = config.btnAddClass;
-            //     $('<a />', {
-            //          class: 'btn btn-success btn-round btn-fab btn-sm add-item tooltips '+klass
-            //         ,title: general_lang.nuevo
-            //         ,html: '<i class="material-icons">add</i>'
-            //     }).appendTo(toolbar);
-            // }
+            //AGREGAMOS EL BOTON DE NUEVO
+            if (config.btnAdd) {
+                toolBar.find('.addItem').attr('data-tooltip', general_lang.nuevo).removeClass('hide');
+            }
 
-            //INIT TOOLTIPS
-            initTooltipped($(settings.nTableWrapper).find('.tooltips'));
+            //AGREGAMOS EL BOTON DE COLVIS
+            if (config.btnColVis) {
+                toolBar.find('.buttons-colvis').attr('data-tooltip', general_lang.showHideCols).removeClass('hide');
+            }
+
+            //ELIMINAMOS BOTONES NO NECESARIOS
+            toolBar.find('a.hide').remove();
+            initTooltips($(settings.nTableWrapper).find('.tooltips'));
         }
         ,language: {
             url: base_url('assets/js/language/'+ language +'/datatables_'+ language +'.json')
@@ -311,6 +306,7 @@ function initDropdown(el, options) {
 }
 
 function initModal(el, options) {
+    var options = options || {};
     var selector = el ? el : IS.initializer.modal;
     var elems = document.querySelectorAll('#content-modals ' + selector);
     var Opdefault = {
@@ -318,10 +314,32 @@ function initModal(el, options) {
         ,show: true
     };
 
-    options = options ? options : {};
     $.extend(Opdefault, options);
 
     $(elems).modal(Opdefault);
+
+    $('#content-modals')
+
+    //onOpenStart
+    .on('show.bs.modal', '.modal', function() {
+        if(options.onOpenStart != undefined && options.onOpenStart.constructor == Function) options.onOpenStart();
+    })
+    
+    //onOpenEnd
+    .on('shown.bs.modal', '.modal', function() {
+        if(options.onOpenEnd != undefined && options.onOpenEnd.constructor == Function) options.onOpenEnd();
+    })
+    
+    //onCloseStart
+    .on('hide.bs.modal', '.modal', function() {
+        if(options.onCloseStart != undefined && options.onCloseStart.constructor == Function) options.onCloseStart();
+    })
+    
+    //Event onCloseEnd
+    .on('hidden.bs.modal', '.modal', function() {
+        if(options.onCloseEnd != undefined && options.onCloseEnd.constructor == Function) options.onCloseEnd();
+        $('#content-modals').html('');
+    });
 }
 
 function initSelect2(el, options) {
@@ -364,7 +382,7 @@ function initSelectUI(el, options) {
     });
 }
 
-function initTooltipped(el, options) {
+function initTooltips(el, options) {
     if (el.constructor === String) {
         var selector = el ? el : IS.initializer.tooltip;
         var elems = document.querySelectorAll(selector);
