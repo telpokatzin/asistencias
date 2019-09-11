@@ -47,6 +47,7 @@ class Empresas_model extends IS_Model {
 		$tbl = $this->tbl;
 
 		!isset($data['id_contacto_rh']) OR $this->db->where('id_contacto_rh', $data['id_contacto_rh']);
+		!isset($data['id_empleado']) OR $this->db->where('id_empleado', $data['id_empleado']);
 		$this->db->where('id_empresa', $data['id_empresa'])
 			->update($tbl['contactos_rh'], $data);
 		$affected = $this->db->affected_rows();

@@ -8,6 +8,7 @@ jQuery(function($) {
 		}
 		,createdRow: function (row, data, dataIndex) {
             $(row).data({id_contacto_rh: data.id_contacto_rh, id_empresa: data.id_empresa});
+            $(row).find('a.edit').remove();
         }
 		,columns: [
 			 {data: 'nombre_completo'}
@@ -127,19 +128,22 @@ jQuery(function($) {
 	 * Event: submit
 	 * Description: Enviamos los datos para el registro del nuevo contacto RH
 	 */
-	.on('submit', '.form-new-crh', function(e) {
-		if ($(this).valid()) {
-			$(this).formAjaxSend({
-				 data:{dataEncription: $('#dataEncription').val()}
-				,success: function(response) {
-					if (response.success) {
-    					showNotify(response.msg, response.type, 'notification_important');
-    					IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
-    					$('.modal.show').modal('hide');
-    				} else swal(response.title, response.msg, response.type);
-				}
-			})
-		}
+	.on('click', 'a.add-contactoRH', function(e) {	
+		var tr = $(this).closest('tr');
+		$.fn.formAjaxSend({
+			 url: base_url('empresas/process_save_contacto_rh')
+			,data: $.extend(tr.data(), {dataEncription: $('#dataEncription').val()})
+			,success: function(response) {
+				if (response.success) {
+        			showNotify(response.msg, response.type, 'notification_important');
+					tr.addClass('bg-success');
+        			tr.animateCSS('fadeOutLeft', function() {
+        				IS.init.dataTable['colaboradores'].row(tr).remove().draw();
+						IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
+        			});
+				} else swal(response.title, response.msg, response.type);
+			}
+		})
 		e.preventDefault();
 	});
 });

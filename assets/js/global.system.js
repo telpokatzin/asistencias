@@ -103,21 +103,25 @@ function initDataTable(element, options) {
 
             //AGREGAMOS EL BOTON DE DESCARGAR
             if (recordsTotal && config.btnDownload) {
-                toolBar.find('.download').attr('data-tooltip', general_lang.descargar).removeClass('hide');
+                toolBar.find('.download').attr('data-placement', 'auto')
+                    .attr('data-title', general_lang.descargar).removeClass('hide');
             }
 
             //AGREGAMOS EL BOTON DE NUEVO
             if (config.btnAdd) {
-                toolBar.find('.addItem').attr('data-tooltip', general_lang.nuevo).removeClass('hide');
+                toolBar.find('.addItem').attr('data-placement', 'auto')
+                    .attr('data-title', general_lang.nuevo).removeClass('hide');
             }
 
             //AGREGAMOS EL BOTON DE COLVIS
             if (config.btnColVis) {
-                toolBar.find('.buttons-colvis').attr('data-tooltip', general_lang.showHideCols).removeClass('hide');
+                toolBar.find('.buttons-colvis').attr('data-placement', 'auto')
+                    .attr('data-title', general_lang.showHideCols).removeClass('hide');
             }
 
             //ELIMINAMOS BOTONES NO NECESARIOS
             toolBar.find('a.hide').remove();
+            console.log($(settings.nTableWrapper).find('.tooltips'))
             initTooltips($(settings.nTableWrapper).find('.tooltips'));
         }
         ,language: {

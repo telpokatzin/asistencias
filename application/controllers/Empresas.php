@@ -194,7 +194,7 @@ class Empresas extends IS_Controller {
 	public function process_remove_CRH() {
 		try {
 			$sqlData = array(
-				 'id_contacto_rh' 	=> $this->session->userdata('id_contacto_rh')
+				 'id_contacto_rh' 	=> $this->input->post('id_contacto_rh')
 				,'id_empresa' 		=> $this->input->post('id_empresa')
 				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
 				,'timestamp_edit' 	=> timestamp()
@@ -283,6 +283,7 @@ class Empresas extends IS_Controller {
 		$dataView['empresas_contactos_rh'] 	= lang('empresas_contactos_rh');
 		$dataView['general_nombre'] 		= lang('general_nombre');
 		$dataView['general_correo'] 		= lang('general_correo');
+		$dataView['empresas_add_contactorh']= lang('empresas_add_contactorh');
 		$dataView['general_close'] 			= lang('general_close');
 		$dataView['general_acciones'] 		= lang('general_acciones');
 
@@ -297,17 +298,20 @@ class Empresas extends IS_Controller {
 	public function process_save_contacto_rh() {
 		try {
 			$sqlData = array(
-				 'id_empresa' 	=> $this->input->post('id_empresa')
-				,'nombre' 		=> $this->input->post('nombre')
-				,'correo' 		=> $this->input->post('correo')
-				,'id_usuario' 	=> $this->session->userdata('id_usuario')
-				,'timestamp' 	=> timestamp()
+				 'id_empresa' 		=> $this->input->post('id_empresa')
+				,'id_empleado' 		=> $this->input->post('id_empleado')
+				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
+				,'timestamp_edit' 	=> timestamp()
+				,'activo' 			=> 1
 			);
-			$exist = $this->db_empresas->get_contactos_rh($sqlData);
-			!$exist OR setException(lang('empresas_crh_duplicado'), lang('general_alerta'), 'warning');
-
-			$insert = $this->db_empresas->insert_contactoRH($sqlData);
-			$insert OR setException();
+			$update = $this->db_empresas->update_contactoRH($sqlData);
+			if (!$update) {
+				unset($sqlData['id_usuario_edit'], $sqlData['timestamp_edit']);
+				$sqlData['id_usuario'] 	= $this->session->userdata('id_usuario');
+				$sqlData['timestamp'] 	= timestamp();
+				$insert = $this->db_empresas->insert_contactoRH($sqlData);
+				$insert OR setException();
+			}
 			
 			$response = array(
 				 'success' 	=> TRUE

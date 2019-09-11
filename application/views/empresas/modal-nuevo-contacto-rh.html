@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal-new-crh" tabindex="-1" role="dialog" aria-labelledby="new-crh" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
-        <form class="form-new-crh form-validate" action="{base_url}empresas/process_save_contacto_rh">
+        <!-- <form class="form-new-crh form-validate" action="{base_url}empresas/process_save_contacto_rh"> -->
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="new-crh">{empresas_contactos_rh}</h5>
@@ -22,7 +22,11 @@
                             <tr data-id_empleado="{id_empleado}">
                                 <td>{nombre_completo}</td>
                                 <td>{correo}</td>
-                                <td></td>
+                                <td class="td-actions text-right">
+                                    <a href="#" class="btn btn-link btn-success btn-just-icon add-contactoRH tooltips" rel="tooltip" title="<?= $empresas_add_contactorh ?>">
+                                        <i class="material-icons">done_all</i>
+                                    </a>
+                                </td>
                             </tr>
                             {/dataTable}
                         </tbody>
@@ -32,6 +36,6 @@
                     <button type="button" class="btn btn-link text-danger" data-dismiss="modal">{general_close}</button>
                 </div>
             </div>
-        </form>
+        <!-- </form> -->
     </div>
 </div>

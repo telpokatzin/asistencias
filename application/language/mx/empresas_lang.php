@@ -17,3 +17,4 @@ $lang['empresas_crh_duplicado'] 	 	= 'El correo ya está registrado en el sistem
 $lang['empresas_crh_update_success'] 	= '¡Se ha actualizado los datos del contacto RH con éxito!';
 $lang['empresas_insert_crh_success'] 	= '¡El contacto RH se ha guardado con éxito!';
 $lang['empresas_remove_turno_success'] 	= '¡El turno de la empresa se ha quitado con éxito!';
+$lang['empresas_add_contactorh'] 		= 'Agregar como Contacto RH';
