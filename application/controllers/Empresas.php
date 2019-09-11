@@ -221,27 +221,6 @@ class Empresas extends IS_Controller {
 		echo json_encode($response);
 	}
 
-	public function get_modal_update_CRH() {
-		//LANG
-		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
-		$dataView['general_nombre'] 		 = lang('general_nombre');
-		$dataView['general_correo'] 		 = lang('general_correo');
-		$dataView['general_close'] 			 = lang('general_close');
-		$dataView['general_save'] 			 = lang('general_save');
-
-		//DATA
-		$sqlData 	= $this->input->post();
-		$empresa 	= $this->db_empresas->get_empresa($sqlData, FALSE);
-		$contactoRH = $this->db_empresas->get_contactos_rh($sqlData, FALSE);
-
-		$dataView = array_merge($dataView, $empresa, $contactoRH);
-		$dataPost = array('id_empresa'=> $empresa['id_empresa'], 'id_contacto_rh'=> $contactoRH['id_contacto_rh']);
-		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
-
-		$this->parser_view("{$this->modulo}/modal-update-contacto-rh", $dataView, FALSE);
-	}
-
 	public function process_update_CRH() {
 		try { 
 			$sqlData = array(

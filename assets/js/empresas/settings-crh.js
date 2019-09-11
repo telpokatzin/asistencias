@@ -23,27 +23,6 @@ jQuery(function($) {
 	$('.main-panel')
 
 	/**
-	 * Element: <a.edit>
-	 * Event: Click
-	 * Description: Abrimos el modal para la edisión del contacto RH
-	 */
-	 .on('click', '#contactos-rh a.edit', function(e) {
-	 	var tr = $(this).closest('tr');
-
-	 	$.fn.formAjaxSend({
-	 		 url: base_url('empresas/get_modal_update_CRH')
-	 		,data: tr.data()
-			,dataType: 'html'
-	 		,success: function(response) {
-				$('#content-modals').html(response);
-				initModal('.modal');
-	 		}
-	 	});
-
-		e.preventDefault();
-	})
-
-	/**
 	 * Element: <a.remove>
 	 * Event: Click
 	 * Description: Eliminación del contacto RH
@@ -102,26 +81,6 @@ jQuery(function($) {
 
 
 	$('#content-modals')//EVENTO DE LOS MODALES
-
-	/**
-	 * Element: <form.form-update-crh>
-	 * Event: submit
-	 * Description: Enviamos los datos de actualización del contacto RH
-	 */
-	.on('submit', '.form-update-crh', function(e) {
-		if ($(this).valid()) {
-			$(this).formAjaxSend({
-				success: function(response) {
-					if (response.success) {
-    					showNotify(response.msg, response.type, 'notification_important');
-    					IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
-    					$('.modal.show').modal('hide');
-    				} else swal(response.title, response.msg, response.type);
-				}
-			})
-		}
-		e.preventDefault();
-	})
 
 	/**
 	 * Element: <form.form-new-crh>
