@@ -336,6 +336,7 @@ function initModal(el, options) {
     
     //onOpenEnd
     .on('shown.bs.modal', function() {
+        $('#content-modals .bmd-label-floating + input').bmdText();
         if(options.onOpenEnd != undefined && options.onOpenEnd.constructor == Function) options.onOpenEnd();
     })
     

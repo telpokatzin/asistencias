@@ -1,6 +1,5 @@
 <?php
 // Generales
-$lang['empresas_empresa']  			 	= 'Empresa';
 $lang['empresas_remove_success']  	 	= '¡La empresa se ha quitado con éxito!';
 $lang['empresas_insert_success']  	 	= '¡La empresa se ha guardado con éxito!';
 $lang['empresas_nueva_empresa']  	 	= 'Nueva empresa';

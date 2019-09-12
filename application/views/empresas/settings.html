@@ -1,48 +1,76 @@
 <div class="col-md-12">
-    <h3>
-        {empresa} <br>
-        <small>{razon_social}</small>
-        <input type="hidden" id="dataEncription" name="dataEncription" value="{dataEncription}">
-    </h3>
     <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <div class="card">
-                <div class="card-header card-header-success card-header-icon">
-                        <div class="card-icon">
-                            <i class="material-icons">contact_mail</i>
+        <div class="col-sm-12 col-md-8">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-success card-header-icon">
+                                <div class="card-icon">
+                                    <i class="material-icons">contact_mail</i>
+                                </div>
+                                <h4 class="card-title">{empresas_contactos_rh}</h4>
                         </div>
-                        <h4 class="card-title">{empresas_contactos_rh}</h4>
+                        <div class="card-body table-responsive">
+                            <table id="contactos-rh" class="table table-hover no-autoinit" data-btn-Add="true">
+                                <thead class="text-gray">
+                                    <th>{general_nombre}</th>
+                                    <th>{general_correo}</th>
+                                    <th width="90">{general_acciones}</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body table-responsive">
-                    <table id="contactos-rh" class="table table-hover no-autoinit" data-btn-Add="true">
-                        <thead class="text-gray">
-                            <th>{general_nombre}</th>
-                            <th>{general_correo}</th>
-                            <th width="90">{general_acciones}</th>
-                        </thead>
-                    </table>
+
+                <div class="col-sm-12 col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-success card-header-icon">
+                            <div class="card-icon">
+                                <i class="material-icons">schedule</i>
+                            </div>
+                            <h4 class="card-title">{empresas_turnos}</h4>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table id="turnos" class="table table-hover no-autoinit" data-btn-Add="true">
+                                <thead class="text-gray">
+                                    <th>{empresas_turno}</th>
+                                    <th>{general_hora_entrada}</th>
+                                    <th>{general_hora_salida}</th>
+                                    <th>{general_acciones}</th>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12 col-md-12">
+        <div class="col-sm-12 col-md-4">
             <div class="card">
-                <div class="card-header card-header-success card-header-icon">
-                    <div class="card-icon">
-                        <i class="material-icons">schedule</i>
+                <div class="card-body ">
+                    <div class="form-group">
+                        <label for="empresa" class="bmd-label-floating">{general_empresa}</label>
+                        <input type="text" class="form-control" id="empresa" value="{empresa}" disabled>
                     </div>
-                    <h4 class="card-title">{empresas_turnos}</h4>
-                </div>
-                <div class="card-body table-responsive">
-                    <table id="turnos" class="table table-hover no-autoinit" data-btn-Add="true">
-                        <thead class="text-gray">
-                            <th data-orderable="false"></th>
-                            <th>{empresas_turno}</th>
-                            <th>{general_hora_entrada}</th>
-                            <th>{general_hora_salida}</th>
-                            <th>{general_acciones}</th>
-                        </thead>
-                    </table>
+                    <div class="form-group">
+                        <label for="razon_social" class="bmd-label-floating">{general_razon_soc}</label>
+                        <input type="text" class="form-control" id="razon_social" value="{razon_social}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="turno" class="bmd-label-floating">{empresas_turno}</label>
+                        <input type="text" class="form-control" id="turno" value="{turno}" disabled  aria-describedby="turnoHelper">
+                        <small id="turnoHelper" class="form-text text-muted">
+                          Turno asignado para todos los empleados
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="turno" class="bmd-label-floating">Días Habiles</label> <br>
+                        Lunes <br>
+                        Martes <br>
+                        Miercoles <br>
+                        Jueves <br>
+                        Viernes <br>
+                    </div>
                 </div>
             </div>
         </div>

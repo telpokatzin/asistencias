@@ -46,7 +46,7 @@ jQuery(function($) {
 			,dataType: 'html'
 	 		,success: function(response) {
 				$('#content-modals').html(response);
-				$('#content-modals .modal').modal();
+				initModal('.modal');
 	 		}
 	 	});
 

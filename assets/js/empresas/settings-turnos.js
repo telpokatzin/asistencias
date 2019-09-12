@@ -1,4 +1,5 @@
 jQuery(function($) {
+	//Tabla Turnos de la empresa
 	initDataTable('#turnos', {
 		 ajax: {
 		 	url: base_url('empresas/get_turnos_empresa')
@@ -11,8 +12,7 @@ jQuery(function($) {
             $(row).data({id_turno_empresa: data.id_turno_empresa, id_empresa: data.id_empresa});
         }
 		,columns: [
-			 {orderable: false, className: 'text-center', defaultContent: '<input type="radio" name="turno">'}
-			,{data: 'turno'}
+			 {data: 'turno'}
 			,{data: 'custom_entrada'}
 			,{data: 'custom_salida'}
 			,{className: 'text-right', data: function(data) {
@@ -22,81 +22,79 @@ jQuery(function($) {
 		]
 	});
 
-	$('.main-panel')//Tabla Contactos RH
+	$('.main-panel')
 
 	/**
 	 * Element: <a.edit>
 	 * Event: Click
-	 * Description: Abrimos el modal para la edisión del contacto RH
+	 * Description: Abrimos el modal para la edisión del turno
 	 */
-	//  .on('click', '#turnos a.edit', function(e) {
-	//  	var tr = $(this).closest('tr');
+	 .on('click', '#turnos a.edit', function(e) {
+	 	var tr = $(this).closest('tr');
 
-	//  	$.fn.formAjaxSend({
-	//  		 url: base_url('empresas/get_modal_update_turno')
-	//  		,data: tr.data()
-	// 		,dataType: 'html'
-	//  		,success: function(response) {
-	// 			$('#content-modals').html(response);
-	// 			$('#content-modals .modal').modal();
-	//  		}
-	//  	});
+	 	$.fn.formAjaxSend({
+	 		 url: base_url('empresas/get_modal_update_turno')
+	 		,data: tr.data()
+			,dataType: 'html'
+	 		,success: function(response) {
+				$('#content-modals').html(response);
+				$('#content-modals .modal').modal();
+	 		}
+	 	});
 
-	// 	e.preventDefault();
-	// })
+		e.preventDefault();
+	})
 
 	/**
 	 * Element: <a.remove>
 	 * Event: Click
-	 * Description: Eliminación del contacto RH
+	 * Description: Eliminación del turno
 	 */
-	// .on('click', '#turnos a.remove', function(e) {
- //   		var tr = $(this).closest('tr');
-	// 	swal({
- //            title: general_lang.esta_seguro,
- //            text: general_lang.delete_row,
- //            type: 'warning',
- //            showCancelButton: true
- //        }).then(function(response) {
- //        	if(response.value) {
- //        		$('tmp').formAjaxSend({
- //        			 url: base_url('empresas/process_remove_turno')
- //        			,data: tr.data()
- //        			,success: function(response) {
- //        				if (response.success) {
- //        					tr.addClass('bg-danger');
- //        					showNotify(response.msg, response.type, 'notification_important');
- //        					tr.animateCSS('fadeOutLeft', function() {
- //        						IS.init.dataTable['turnos'].row(tr).remove().draw();
- //        					});
- //        				} else swal(response.title, response.msg, response.type);
- //        			}
- //        		});
- //        	}
- //        });
-	// 	e.preventDefault();
-	// })
+	.on('click', '#turnos a.remove', function(e) {
+   		var tr = $(this).closest('tr');
+		swal({
+            title: general_lang.esta_seguro,
+            text: general_lang.delete_row,
+            type: 'warning',
+            showCancelButton: true
+        }).then(function(response) {
+        	if(response.value) {
+        		$('tmp').formAjaxSend({
+        			 url: base_url('empresas/process_remove_turno')
+        			,data: tr.data()
+        			,success: function(response) {
+        				if (response.success) {
+        					tr.addClass('bg-danger');
+        					showNotify(response.msg, response.type, 'notification_important');
+        					tr.animateCSS('fadeOutLeft', function() {
+        						IS.init.dataTable['turnos'].row(tr).remove().draw();
+        					});
+        				} else swal(response.title, response.msg, response.type);
+        			}
+        		});
+        	}
+        });
+		e.preventDefault();
+	})
 
 	/**
-	 * Element: <a.add-item>
+	 * Element: <a.addItem>
 	 * Event: Click
-	 * Description: Abrimos el modal para el registro de un nuevo contacto RH.
+	 * Description: Abrimos el modal para el registro de un nuevo turno
 	 */
-	// .on('click', '#turnos_wrapper a.add-item', function(e) {
-	// 	$.fn.formAjaxSend({
-	// 		 url: base_url('empresas/get_modal_nuevo_CRH')
-	// 		,data:{dataEncription: $('#dataEncription').val()}
-	// 		,dataType: 'html'
-	// 		,success: function(response) {
-	// 			$('#content-modals').html(response);
-	// 			$('#content-modals .modal').modal();
-	// 		}
-	// 	});
+	.on('click', '#turnos_wrapper a.addItem', function(e) {
+		$.fn.formAjaxSend({
+			 url: base_url('empresas/get_modal_nuevo_CRH')
+			,data:{dataEncription: $('#dataEncription').val()}
+			,dataType: 'html'
+			,success: function(response) {
+				$('#content-modals').html(response);
+				$('#content-modals .modal').modal();
+			}
+		});
 
-	// 	e.preventDefault();
-	// });
-
-
+		e.preventDefault();
+	});
 
 	$('#content-modals')//EVENTO DE LOS MODALES
 

@@ -12,7 +12,7 @@ class Empresas extends IS_Controller {
 	}
 
 	public function index() {
-		$dataView['empresas_empresa'] 	= lang('empresas_empresa');
+		$dataView['general_empresa'] 	= lang('general_empresa');
 		$dataView['empresas_razon_social'] 	= lang('empresas_razon_social');
 		$dataView['general_acciones'] 	= lang('general_acciones');
 		$dataView['empresas_settings'] 	= lang('empresas_settings');
@@ -64,7 +64,7 @@ class Empresas extends IS_Controller {
 
 	public function get_modal_nueva_empresa() {
 		$dataView['empresas_nueva_empresa'] = lang('empresas_nueva_empresa');
-		$dataView['empresas_empresa'] 		= lang('empresas_empresa');
+		$dataView['general_empresa'] 		= lang('general_empresa');
 		$dataView['empresas_razon_social'] 	= lang('empresas_razon_social');
 		$dataView['general_close'] 			= lang('general_close');
 		$dataView['general_save'] 			= lang('general_save');
@@ -105,7 +105,7 @@ class Empresas extends IS_Controller {
 
 	public function get_modal_update_empresa() {
 		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
+		$dataView['general_empresa'] 		 = lang('general_empresa');
 		$dataView['empresas_razon_social'] 	 = lang('empresas_razon_social');
 		$dataView['general_close'] 			 = lang('general_close');
 		$dataView['general_save'] 			 = lang('general_save');
@@ -160,6 +160,8 @@ class Empresas extends IS_Controller {
 		$_POST OR redirect('empresas','refresh');
 
 		#LABELS
+		$dataView['general_empresa'] 		= lang('general_empresa');
+		$dataView['general_razon_soc'] 		= lang('general_razon_soc');
 		$dataView['empresas_contactos_rh'] 	= lang('empresas_contactos_rh');
 		$dataView['empresas_turnos'] 		= lang('empresas_turnos');
 		$dataView['empresas_turno'] 		= lang('empresas_turno');
@@ -350,7 +352,7 @@ class Empresas extends IS_Controller {
 	public function get_modal_update_turno() {
 		//LANG
 		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['empresas_empresa'] 		 = lang('empresas_empresa');
+		$dataView['general_empresa'] 		 = lang('general_empresa');
 		$dataView['empresas_turno'] 		 = lang('empresas_turno');
 		$dataView['general_hora_entrada'] 	 = lang('general_hora_entrada');
 		$dataView['general_hora_salida'] 	 = lang('general_hora_salida');
