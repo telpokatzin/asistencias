@@ -5,6 +5,7 @@ class Load_vars {
     private 	$directory;
     private 	$files;
     public 		$EnvironmentVariable = array();
+    private     $extension = 'cfg';
 
 	public function __construct($directory='cfg', $file='') {
 		try {
@@ -25,7 +26,7 @@ class Load_vars {
         	list($file, $extension) = explode('.', $file);
         	$filename 	= $file;
         	$$filename 	= array();
-        	$filePath 	= $this->directory."/$filename.cfg";
+        	$filePath 	= $this->directory."/$filename.".$this->extension;
         	if (!is_readable($filePath)) continue;
         	$lines 		= $this->readLinesFromFile($filePath);
 
@@ -42,9 +43,16 @@ class Load_vars {
 	}
 
 	protected function get_files() {
+        $response = array();
 		$files = array_diff(scandir($this->directory), array('.', '..'));
+        foreach ($files as $file) {
+            if (strrpos($file, '.'.$this->extension)) {
+                $response[] = $file;
+            }
+        }
 
-		return $files;
+        count($response) OR exit('No se ha encontrado ningun archivo de configuración, contacte al administrador del sistema.');
+		return $response;
 	}
 
     /**
