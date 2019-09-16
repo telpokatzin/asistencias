@@ -30,3 +30,14 @@ label.error > i.icon-middle {
     vertical-align: middle;
 }
 /***END INPUT ERROR****/
+
+/***CONFIGURACIÓN EMPRESA***/
+.list-dias-habiles {
+    flex-direction: row;
+    align-items: center;
+}
+
+.list-dias-habiles > li:not(:first-child) {
+    margin-left: 5px;
+}
+/***CONFIGURACIÓN EMPRESA***/
