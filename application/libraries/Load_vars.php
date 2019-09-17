@@ -51,7 +51,7 @@ class Load_vars {
             }
         }
 
-        count($response) OR exit('No se ha encontrado ningun archivo de configuración, contacte al administrador del sistema.');
+        count($response) OR exit('No se ha encontrado ningún archivo de configuración, contacte al administrador del sistema.');
 		return $response;
 	}
 
