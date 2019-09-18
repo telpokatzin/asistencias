@@ -1,0 +1,52 @@
+<div class="modal fade" id="modal-dias-habiles" tabindex="-1" role="dialog" aria-labelledby="dias-habiles" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form class="form-registro-dias-habiles" action="{base_url}empresas/process_save_dias_habiles">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dias-habiles">{general_dias_habiles}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-11 offset-md-1">
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday0">
+                                <label class="custom-control-label" for="weekday0">{general_dia_0}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday1">
+                                <label class="custom-control-label" for="weekday1">{general_dia_1}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday2">
+                                <label class="custom-control-label" for="weekday2">{general_dia_2}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday3">
+                                <label class="custom-control-label" for="weekday3">{general_dia_3}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday4">
+                                <label class="custom-control-label" for="weekday4">{general_dia_4}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday5">
+                                <label class="custom-control-label" for="weekday5">{general_dia_5}</label>
+                            </div>
+                            <div class="custom-control custom-switch">
+                                <input type="checkbox" class="custom-control-input" id="weekday6">
+                                <label class="custom-control-label" for="weekday6">{general_dia_6}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link text-danger" data-dismiss="modal">{general_close}</button>
+                    <button type="submit" class="btn btn-success">{general_save}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

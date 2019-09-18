@@ -139,6 +139,19 @@ class Empresas_model extends IS_Model {
 
 		return $affected_rows ? $affected : TRUE;
 	}
+
+	public function get_config_empresas(array $data, $all=FALSE) {
+		$tbl = $this->tbl;
+
+		!isset($data['id_configuracion_empresa']) 	OR $this->db->where('id_configuracion_empresa', $data['id_configuracion_empresa']);
+		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
+		$request = $this->db->select('*')
+			->where('activo', 1)
+			->where('id_empresa !=', 1)
+			->get($tbl['configuraciones_empresas']);
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
 }
 
 /* End of file Empresas_model.php */

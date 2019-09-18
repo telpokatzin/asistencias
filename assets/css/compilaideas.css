@@ -41,3 +41,9 @@ label.error > i.icon-middle {
     margin-left: 5px;
 }
 /***CONFIGURACIÓN EMPRESA***/
+
+/***CURSOR***/
+.cursor-pointer {
+    cursor: pointer;
+}
+/***END CURSOR***/

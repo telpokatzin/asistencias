@@ -170,6 +170,8 @@ class Empresas extends IS_Controller {
 		$dataView['general_hora_entrada'] 	= lang('general_hora_entrada');
 		$dataView['general_hora_salida'] 	= lang('general_hora_salida');
 		$dataView['general_acciones'] 		= lang('general_acciones');
+		$dataView['general_dias_habiles'] 	= lang('general_dias_habiles');
+		$dataView['general_undefined'] 		= lang('general_undefined');
 		$dataView['general_editar'] 		= lang('general_editar');
 		$dataView['general_delete'] 		= lang('general_delete');
 		$dataView['section'] 				= lang('empresas_settings');
@@ -177,10 +179,24 @@ class Empresas extends IS_Controller {
 		#DATA
 		$sqlData = $this->input->post();
 		$empresa = $this->db_empresas->get_empresa($sqlData, FALSE);
+		$config  = $this->db_empresas->get_config_empresas($sqlData);
+		
+		$dataView['dias_habiles'] = array();
+		if (isset($config['dias_habiles'])) {
+			$dias_habiles = explode(',', $config['dias_habiles']);
+			foreach ($dias_habiles as $weekDay) {
+				$dataView['dias_habiles'][] = [
+					 'day' 		=> lang("general_dia_{$weekDay}")
+					,'shortDay' => lang("general_dia_{$weekDay}_short")
+				];
+			}
+		}
+
 		$dataView = array_merge($dataView, $empresa);
 		$dataPost = array('id_empresa'=> $empresa['id_empresa']);
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
+		$includes['js'][] = array('name'=>'settings', 'dirname'=>$this->js);
 		$includes['js'][] = array('name'=>'settings-crh', 'dirname'=>$this->js);
 		$includes['js'][] = array('name'=>'settings-turnos', 'dirname'=>$this->js);
 		$this->load_view("{$this->modulo}/settings", $dataView, $includes);
@@ -369,6 +385,21 @@ class Empresas extends IS_Controller {
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
 		$this->parser_view("{$this->modulo}/modal-update-turno", $dataView, FALSE);
+	}
+
+	public function get_modal_dias_habiles() {
+		$dataView['general_dias_habiles'] 	= lang('general_dias_habiles');
+		$dataView['general_dia_0'] 			= lang('general_dia_0');
+		$dataView['general_dia_1'] 			= lang('general_dia_1');
+		$dataView['general_dia_2'] 			= lang('general_dia_2');
+		$dataView['general_dia_3'] 			= lang('general_dia_3');
+		$dataView['general_dia_4'] 			= lang('general_dia_4');
+		$dataView['general_dia_5'] 			= lang('general_dia_5');
+		$dataView['general_dia_6'] 			= lang('general_dia_6');
+		$dataView['general_close'] 			= lang('general_close');
+		$dataView['general_save'] 			= lang('general_save');
+
+		$this->parser_view("{$this->modulo}/modal-dias-habiles", $dataView, FALSE);
 	}
 }
 
