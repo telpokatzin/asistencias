@@ -14,7 +14,7 @@ jQuery(function($) {
 	 						location.reload();
 	 					} else redirect(response.redirect);//ACCESO CORRECTO PRIMER INGRESO
 	 				//ERROR AUTENTICACION
-	 				} else  swal(response.title, response.msg, response.type); 
+	 				} else  ISSwal(response.title, response.msg, response.type); 
 	 			}
 	 		});
 	 	}

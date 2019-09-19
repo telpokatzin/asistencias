@@ -52,7 +52,7 @@ jQuery(function($) {
 	 */
 	.on('click', '#turnos a.remove', function(e) {
    		var tr = $(this).closest('tr');
-		swal({
+		ISSwal({
             title: general_lang.esta_seguro,
             text: general_lang.delete_row,
             type: 'warning',
@@ -69,7 +69,7 @@ jQuery(function($) {
         					tr.animateCSS('fadeOutLeft', function() {
         						IS.init.dataTable['turnos'].row(tr).remove().draw();
         					});
-        				} else swal(response.title, response.msg, response.type);
+        				} else ISSwal(response.title, response.msg, response.type);
         			}
         		});
         	}
@@ -111,7 +111,7 @@ jQuery(function($) {
  //    					showNotify(response.msg, response.type, 'notification_important');
  //    					IS.init.dataTable['turnos'].ajax.reload(null, false);
  //    					$('.modal.show').modal('hide');
- //    				} else swal(response.title, response.msg, response.type);
+ //    				} else ISSwal(response.title, response.msg, response.type);
 	// 			}
 	// 		})
 	// 	}
@@ -132,7 +132,7 @@ jQuery(function($) {
  //    					showNotify(response.msg, response.type, 'notification_important');
  //    					IS.init.dataTable['turnos'].ajax.reload(null, false);
  //    					$('.modal.show').modal('hide');
- //    				} else swal(response.title, response.msg, response.type);
+ //    				} else ISSwal(response.title, response.msg, response.type);
 	// 			}
 	// 		})
 	// 	}

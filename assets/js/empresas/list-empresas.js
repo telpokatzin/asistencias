@@ -60,7 +60,7 @@ jQuery(function($) {
 	 */
 	.on('click', 'a.remove', function(e) {
    		var tr = $(this).closest('tr');
-		swal({
+		ISSwal({
             title: general_lang.esta_seguro,
             text: general_lang.delete_row,
             type: 'warning',
@@ -78,7 +78,7 @@ jQuery(function($) {
         						IS.init.dataTable['empresas'].row(tr).remove().draw();
         					});
 
-        				} else swal(response.title, response.msg, response.type);
+        				} else ISSwal(response.title, response.msg, response.type);
         			}
         		});
         	}
@@ -120,7 +120,7 @@ jQuery(function($) {
         					showNotify(response.msg, response.type, 'notification_important');
         					IS.init.dataTable['empresas'].ajax.reload(null, false);
         					$('.modal.show').modal('hide');
-        				} else swal(response.title, response.msg, response.type);
+        				} else ISSwal(response.title, response.msg, response.type);
 					}
 				});
 			}
@@ -142,7 +142,7 @@ jQuery(function($) {
         					showNotify(response.msg, response.type, 'notification_important');
         					IS.init.dataTable['empresas'].ajax.reload(null, false);
         					$('.modal.show').modal('hide');
-        				} else swal(response.title, response.msg, response.type);
+        				} else ISSwal(response.title, response.msg, response.type);
 					}
 				});
 			}

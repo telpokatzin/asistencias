@@ -8,12 +8,14 @@ jQuery(function($) {
     $('#system-time').length && reloj('system-time');
 
     //SWEET ALERT DEFAULT
-    swal.setDefaults({
+    ISSwal = Swal.mixin({
         cancelButtonText: general_lang.cancelar,
         confirmButtonText: general_lang.aceptar,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        buttonsStyling: false
+        buttonsStyling: false,
+        reverseButtons: false,
+        focusCancel: true
     });
 
     //SET ERROR RULES
@@ -182,7 +184,7 @@ function gotoLink(url, target, isDownload) {
         var msg2     = '<p>Su navegador ha bloqueado la descarga del archivo, por favor habilita las ventanas emergentes. <br> <br>\
                         Haz '+elLink+' para la descarga manual.</p>';
 
-        swal({
+        ISSwal({
              title: general_lang.alerta
             ,type: 'info'
             ,allowOutsideClick: false
@@ -194,7 +196,7 @@ function gotoLink(url, target, isDownload) {
         }).then(function(){}, function(){});
 
         jQuery('#'+ randomId).click(function(){
-            swal.close();
+            ISSwal.close();
         });
     }
 }

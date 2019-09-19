@@ -43,7 +43,7 @@
 
 			//SI NO SE HA DEFINIDO UNA RUTA DEL EVENTO AJAX, SE MANDA UNA ALERTA.
 			if (!settings.url) {
-				swal(general_lang.error, general_lang.ruta_no_definido, 'error');
+				ISSwal(general_lang.error, general_lang.ruta_no_definido, 'error');
 				return false;
 			} 
 			
@@ -80,16 +80,16 @@
 				}
 				,statusCode: {
 				    0: function() {
-				    	swal(general_lang.error, error_lang.error_0, 'error');
+				    	ISSwal(general_lang.error, error_lang.error_0, 'error');
 				    },
 				    301: function() { //Moved Permanently
-				    	swal(general_lang.error, error_lang.error_301, 'error');
+				    	ISSwal(general_lang.error, error_lang.error_301, 'error');
 				    },
 				    400: function() { //Bad Request
-				    	swal(general_lang.error, error_lang.error_400, 'error');
+				    	ISSwal(general_lang.error, error_lang.error_400, 'error');
 				    },
 		            401: function() { //Unauthorized
-		            	swal({
+		            	ISSwal({
 						  	 text: sessionLang.content
 						  	,type: 'info'
 				 			,onClose: function() {
@@ -98,10 +98,10 @@
 				 		});
 		            },
 				    404: function() { //Not Found
-				      swal(general_lang.error, error_lang.error_404, 'error');
+				      ISSwal(general_lang.error, error_lang.error_404, 'error');
 				    },
 				    500: function() { //Internal Server Error
-				      swal(general_lang.error, error_lang.error_500, 'error');
+				      ISSwal(general_lang.error, error_lang.error_500, 'error');
 				    }
 				}
 				,complete: function(jqXHR) {
@@ -137,7 +137,7 @@
 
 			//SI NO SE HA DEFINIDO UNA RUTA DEL EVENTO AJAX, SE MANDA UNA ALERTA.
 			if (!settings.url) {
-				swal(general_lang.error, general_lang.ruta_no_definido, 'error');
+				ISSwal(general_lang.error, general_lang.ruta_no_definido, 'error');
 				return false;
 			} 
 

@@ -55,7 +55,7 @@ jQuery(function($) {
 				 			$('.content-dias-habiles').html(response);
 				 		}
 					});
-				} else swal(response.title, response.msg, response.type);
+				} else ISSwal(response.title, response.msg, response.type);
 			}
 		});
 		

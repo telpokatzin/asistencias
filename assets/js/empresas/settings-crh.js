@@ -29,7 +29,7 @@ jQuery(function($) {
 	 */
 	.on('click', '#contactos-rh a.remove', function(e) {
    		var tr = $(this).closest('tr');
-		swal({
+		ISSwal({
             title: general_lang.esta_seguro,
             text: general_lang.delete_row,
             type: 'warning',
@@ -47,7 +47,7 @@ jQuery(function($) {
         						IS.init.dataTable['contactos-rh'].row(tr).remove().draw();
         					});
 
-        				} else swal(response.title, response.msg, response.type);
+        				} else ISSwal(response.title, response.msg, response.type);
         			}
         		});
         	}
@@ -100,7 +100,7 @@ jQuery(function($) {
         				IS.init.dataTable['colaboradores'].row(tr).remove().draw();
 						IS.init.dataTable['contactos-rh'].ajax.reload(null, false);
         			});
-				} else swal(response.title, response.msg, response.type);
+				} else ISSwal(response.title, response.msg, response.type);
 			}
 		})
 		e.preventDefault();
