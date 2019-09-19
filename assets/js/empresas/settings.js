@@ -15,7 +15,15 @@ jQuery(function($) {
 			,dataType: 'html'
 	 		,success: function(response) {
 				$('#content-modals').html(response);
-				initModal('.modal');
+				initModal('.modal', {
+					onOpenEnd: () => {
+						$('.modal.fade form').validate({
+							errorPlacement: function(error, element) {
+								$('.errorPlacement').html(error);
+							}
+						});
+					}
+				});
 	 		}
 	 	});
 
@@ -27,22 +35,30 @@ jQuery(function($) {
 	$('#content-modals')//EVENTO DE LOS MODALES
 
 	/**
-	 * Element: <form.form-update-crh>
+	 * Element: <form.form-registro-dias-habiles>
 	 * Event: submit
-	 * Description: Enviamos los datos de actualización del contacto RH
+	 * Description: Enviamos los días hábiles de la empresa
 	 */
-	// .on('submit', '.form-update-crh', function(e) {
-	// 	if ($(this).valid()) {
-	// 		$(this).formAjaxSend({
-	// 			success: function(response) {
-	// 				if (response.success) {
- //    					showNotify(response.msg, response.type, 'notification_important');
- //    					IS.init.dataTable['turnos'].ajax.reload(null, false);
- //    					$('.modal.show').modal('hide');
- //    				} else swal(response.title, response.msg, response.type);
-	// 			}
-	// 		})
-	// 	}
-	// 	e.preventDefault();
-	// })
+	.on('submit', '.form-registro-dias-habiles', function(e) {
+		$(this).formAjaxSend({
+	 		 data: {dataEncription: $('#dataEncription').val()}
+			,success: function(response) {
+				if (response.success) {
+					showNotify(response.msg, response.type, 'notification_important');
+					$('.modal.show').modal('hide');
+					$.fn.formAjaxSend({
+				 		 url: base_url('empresas/get_dias_habiles_empresa/0/0')
+				 		,data: {dataEncription: $('#dataEncription').val()}
+						,dataType: 'html'
+						,blockScreen: false
+				 		,success: function(response) {
+				 			$('.content-dias-habiles').html(response);
+				 		}
+					});
+				} else swal(response.title, response.msg, response.type);
+			}
+		});
+		
+		e.preventDefault();
+	});
 });

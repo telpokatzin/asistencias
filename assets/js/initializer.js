@@ -1,6 +1,10 @@
 (function($) {
+    var systemLang = $('meta[name=system-lang').attr('content');
+    $("meta[name=system-lang]").remove();
+
     IS = { 
-         initializer: {
+         lang: JSON.parse(systemLang) || {}
+        ,initializer: {
              autocomplete: '.autocomplete:not(.no-autoinit)'
             ,carousel: '.carousel:not(.no-autoinit)'
             ,chips: '.chips:not(.no-autoinit)'

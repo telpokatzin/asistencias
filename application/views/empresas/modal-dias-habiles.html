@@ -11,34 +11,14 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-11 offset-md-1">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday0">
-                                <label class="custom-control-label" for="weekday0">{general_dia_0}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday1">
-                                <label class="custom-control-label" for="weekday1">{general_dia_1}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday2">
-                                <label class="custom-control-label" for="weekday2">{general_dia_2}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday3">
-                                <label class="custom-control-label" for="weekday3">{general_dia_3}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday4">
-                                <label class="custom-control-label" for="weekday4">{general_dia_4}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday5">
-                                <label class="custom-control-label" for="weekday5">{general_dia_5}</label>
-                            </div>
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" class="custom-control-input" id="weekday6">
-                                <label class="custom-control-label" for="weekday6">{general_dia_6}</label>
-                            </div>
+                            <?php foreach($dias_semana AS $day): 
+                                $checked = (strstr($dias_habiles, $day['id_dia']) !== FALSE ? 'checked' : ''); ?>
+                                <div class="custom-control custom-switch">
+                                    <input type="checkbox" name="dias_habiles[]" class="custom-control-input validate required" id="weekday<?= $day['id_dia'] ?>" value="<?= $day['id_dia'] ?>" <?= $checked ?> data-msg-required="{empresas_indicar_dia_habil}">
+                                    <label class="custom-control-label" for="weekday<?= $day['id_dia'] ?>"><?= $day['dia'] ?></label>
+                                </div>
+                            <?php endforeach ?>
+                            <div class="errorPlacement"></div>
                         </div>
                     </div>
                 </div>

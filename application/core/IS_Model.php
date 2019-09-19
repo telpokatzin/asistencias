@@ -7,6 +7,7 @@ class IS_Model extends CI_Model {
 
 		// DATABASE 1 - asistencias
 		$asistencias							= get_var('mysql_db1');
+		$this->tbl['dias_semana']				= "$asistencias.cat_dias_semana";
 		$this->tbl['empresas']					= "$asistencias.cat_empresas";
 		$this->tbl['menu']			 			= "$asistencias.sys_menu";
 		$this->tbl['perfiles'] 					= "$asistencias.sys_perfiles";

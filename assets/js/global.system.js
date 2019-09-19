@@ -121,7 +121,7 @@ function initDataTable(element, options) {
 
             //ELIMINAMOS BOTONES NO NECESARIOS
             toolBar.find('a.hide').remove();
-            console.log($(settings.nTableWrapper).find('.tooltips'))
+            
             initTooltips($(settings.nTableWrapper).find('.tooltips'));
         }
         ,language: {

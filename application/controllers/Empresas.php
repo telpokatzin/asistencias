@@ -170,7 +170,6 @@ class Empresas extends IS_Controller {
 		$dataView['general_hora_entrada'] 	= lang('general_hora_entrada');
 		$dataView['general_hora_salida'] 	= lang('general_hora_salida');
 		$dataView['general_acciones'] 		= lang('general_acciones');
-		$dataView['general_dias_habiles'] 	= lang('general_dias_habiles');
 		$dataView['general_undefined'] 		= lang('general_undefined');
 		$dataView['general_editar'] 		= lang('general_editar');
 		$dataView['general_delete'] 		= lang('general_delete');
@@ -180,18 +179,8 @@ class Empresas extends IS_Controller {
 		$sqlData = $this->input->post();
 		$empresa = $this->db_empresas->get_empresa($sqlData, FALSE);
 		$config  = $this->db_empresas->get_config_empresas($sqlData);
-		
-		$dataView['dias_habiles'] = array();
-		if (isset($config['dias_habiles'])) {
-			$dias_habiles = explode(',', $config['dias_habiles']);
-			foreach ($dias_habiles as $weekDay) {
-				$dataView['dias_habiles'][] = [
-					 'day' 		=> lang("general_dia_{$weekDay}")
-					,'shortDay' => lang("general_dia_{$weekDay}_short")
-				];
-			}
-		}
 
+		$dataView['dias-habiles'] = self::get_dias_habiles_empresa($config);
 		$dataView = array_merge($dataView, $empresa);
 		$dataPost = array('id_empresa'=> $empresa['id_empresa']);
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
@@ -200,6 +189,34 @@ class Empresas extends IS_Controller {
 		$includes['js'][] = array('name'=>'settings-crh', 'dirname'=>$this->js);
 		$includes['js'][] = array('name'=>'settings-turnos', 'dirname'=>$this->js);
 		$this->load_view("{$this->modulo}/settings", $dataView, $includes);
+	}
+
+	public function get_dias_habiles_empresa($settings=FALSE, $return=TRUE) {
+		#LANG
+		$dataView['general_dias_habiles'] 	= lang('general_dias_habiles');
+		$dataView['general_undefined'] 		= lang('general_undefined');
+
+		#DATA
+		if (!$settings) {
+			$sqlData = $this->input->post();
+			$settings  = $this->db_empresas->get_config_empresas($sqlData);
+		}
+
+		$dataView['dias_habiles'] = array();
+		if (isset($settings['dias_habiles'])) {
+			$dias_habiles = explode(',', $settings['dias_habiles']);
+			foreach ($dias_habiles as $weekDay) {
+				$dataView['dias_habiles'][] = [
+					 'day' 		=> lang("general_dia_{$weekDay}")
+					,'shortDay' => lang("general_dia_{$weekDay}_short")
+				];
+			}
+		}
+
+		$dias_habiles = $this->parser_view("{$this->modulo}/list-dias-habiles-empresa", $dataView);
+		if($return) return $dias_habiles;
+
+		echo $dias_habiles;
 	}
 
 	public function get_contacto_rh() {
@@ -388,18 +405,52 @@ class Empresas extends IS_Controller {
 	}
 
 	public function get_modal_dias_habiles() {
-		$dataView['general_dias_habiles'] 	= lang('general_dias_habiles');
-		$dataView['general_dia_0'] 			= lang('general_dia_0');
-		$dataView['general_dia_1'] 			= lang('general_dia_1');
-		$dataView['general_dia_2'] 			= lang('general_dia_2');
-		$dataView['general_dia_3'] 			= lang('general_dia_3');
-		$dataView['general_dia_4'] 			= lang('general_dia_4');
-		$dataView['general_dia_5'] 			= lang('general_dia_5');
-		$dataView['general_dia_6'] 			= lang('general_dia_6');
-		$dataView['general_close'] 			= lang('general_close');
-		$dataView['general_save'] 			= lang('general_save');
+		#LABELS
+		$dataView['general_dias_habiles'] 		= lang('general_dias_habiles');
+		$dataView['empresas_indicar_dia_habil'] = lang('empresas_indicar_dia_habil');
+		$dataView['general_close'] 				= lang('general_close');
+		$dataView['general_save'] 				= lang('general_save');
+
+		#DATA
+		$sqlData = $this->input->post();
+		$dias_semana 	= $this->db_catalogos->get_dias_semana();
+		$config_empresa = $this->db_empresas->get_config_empresas($sqlData);
+		$dataView = array_merge($dataView, $config_empresa);
+		$dataView['dias_semana'] = $dias_semana;
 
 		$this->parser_view("{$this->modulo}/modal-dias-habiles", $dataView, FALSE);
+	}
+
+	public function process_save_dias_habiles() {
+		try {
+			$dias_habiles = $this->input->post('dias_habiles');
+			
+			$sqlData = array(
+				 'id_empresa' 		=> $this->input->post('id_empresa')
+				,'dias_habiles' 	=> implode(',', $dias_habiles)
+				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
+				,'timestamp_edit' 	=> timestamp()
+			);
+			$update = $this->db_empresas->update_config_empresa($sqlData);
+			$update OR setException();
+
+			$response = array(
+				 'success' 	=> TRUE
+				,'title' 	=> lang('general_exito')
+				,'msg' 		=> lang('general_save_success')
+				,'type' 	=> 'success'
+			);
+			
+		} catch (IS_Exception $e) {
+			$response = array(
+				 'success' 	=> FALSE
+				,'title' 	=> $e->getTitle()
+				,'msg' 		=> $e->getMessage()
+				,'type' 	=> $e->getTypeMessage()
+			);
+		}
+
+		echo json_encode($response);
 	}
 }
 

@@ -50,7 +50,6 @@ class IS_Controller extends MX_Controller {
         return TRUE;
     }
 
-
     private function check_userAuthentication() {
         $uriLogin   = array('', 'login', 'login/index');
         $uri        = $this->uri->uri_string();
@@ -89,6 +88,7 @@ class IS_Controller extends MX_Controller {
 
         // INCLUDES HEADER Y VENDOR
         // SE CARGAN EL CORE Y LOS PLUGINS DEL SISTEMA ADEMAS DE LOS JS Y CSS EXTRAS
+        $parse['system-lang'] = json_encode($this->lang->language);
         $dataPage['includes_header'] = $this->parser_view("$folder/includes-header", $parse, TRUE, $includes_header);
         $dataPage['includes_vendor'] = $this->parser_view("$folder/includes-vendor" , $parse);
         //FIN HEADER Y VENDOR

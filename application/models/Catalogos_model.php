@@ -65,6 +65,16 @@ class Catalogos_model extends IS_Model {
 		return $all ? $request->result_array() : $request->row_array();
 	}
 	
+	public function get_dias_semana($all=TRUE) {
+		$tbl = $this->tbl;
+
+		isset($data['id_dia']) 	AND $this->db->where("id_dia IN($data[id_dia])");
+		$request = $this->db->select('*')
+			->order_by('id_dia')
+			->get("$tbl[dias_semana]");
+
+		return $all ? $request->result_array() : $request->row_array();
+	}
 }
 
 /* End of file Catalogos_model.php */

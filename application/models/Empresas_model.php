@@ -152,6 +152,22 @@ class Empresas_model extends IS_Model {
 
 		return $all ? $request->result_array() : $request->row_array();
 	}
+
+	public function update_config_empresa(array $data, $affected_rows=TRUE) {
+		$tbl = $this->tbl;
+
+		$this->db->where('id_empresa', $data['id_empresa'])
+			->update($tbl['configuraciones_empresas'], $data);
+		$affected = $this->db->affected_rows();
+
+		$error = $this->db->error();
+		if ($error['message']) {
+			log_message('error', $error['message']);
+			return FALSE;
+		}
+
+		return $affected_rows ? $affected : TRUE;
+	}
 }
 
 /* End of file Empresas_model.php */

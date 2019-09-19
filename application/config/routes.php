@@ -59,3 +59,4 @@ $route['translate_uri_dashes'] 	= FALSE;
 //********************************
 $route['login'] 				= 'global/login';
 $route['logout'] 				= 'global/login/logout';
+$route['empresas/get_dias_habiles_empresa/(:any)/(:any)'] = 'empresas/get_dias_habiles_empresa/$1/$2';

@@ -1,0 +1,14 @@
+ <div class="form-group">
+    <label for="turno" class="bmd-label-floating">{general_dias_habiles}</label>
+    <ul class="navbar-nav list-dias-habiles">
+        <?php if($dias_habiles): ?>
+            <?php foreach($dias_habiles AS $weekDay): ?>
+                <li class="nav-item cursor-pointer weekDay" title="<?= $weekDay['day'] ?>">
+                    <span class="badge badge-success"><?=$weekDay['shortDay']?></span>
+                </li>
+            <?php endforeach; ?>
+        <?php else: ?>
+        <li class="cursor-pointer weekDay">{general_undefined}</li>
+        <?php endif; ?>
+    </ul>
+</div>
