@@ -1,5 +1,5 @@
 jQuery(function($) {	
-	setTimeout(function(){$('#usuario').focus();}, 500);
+	// setTimeout(function(){$('#usuario').focus();}, 500);
 
 	$("form").validate({
 	 	 ignore:'.ignore'

@@ -109,16 +109,17 @@ class Empresas_model extends IS_Model {
 	public function get_turnos(array $data, $all=TRUE) {
 		$tbl = $this->tbl;
 
-		!isset($data['diferent']) 			OR $this->db->where('id_turno_empresa !=', $data['diferent']);
-		!isset($data['id_turno_empresa']) 	OR $this->db->where('id_turno_empresa', $data['id_turno_empresa']);
-		!isset($data['id_empresa']) 		OR $this->db->where('id_empresa', $data['id_empresa']);
-		!isset($data['turno']) 				OR $this->db->where('turno', $data['turno']);
+		!isset($data['diferent']) 	OR $this->db->where('id_turno !=', $data['diferent']);
+		!isset($data['id_turno']) 	OR $this->db->where('id_turno', $data['id_turno']);
+		!isset($data['id_empresa']) OR $this->db->where('id_empresa', $data['id_empresa']);
+		!isset($data['turno']) 		OR $this->db->where('turno', $data['turno']);
+		!isset($data['like']) 		OR $this->db->like('turno', $data['like']);
 		$request = $this->db->select("*
 				,TIME_FORMAT(entrada, '%h:%i %p') AS custom_entrada
 				,TIME_FORMAT(salida, '%h:%i %p') AS custom_salida
 			", FALSE)
 			->where('activo', 1)
-			->get($tbl['turnos_empresas']);
+			->get($tbl['turnos']);
 
 		return $all ? $request->result_array() : $request->row_array();
 	}
@@ -126,9 +127,9 @@ class Empresas_model extends IS_Model {
 	public function update_turno(array $data, $affected_rows=TRUE) {
 		$tbl = $this->tbl;
 
-		!isset($data['id_turno_empresa']) OR $this->db->where('id_turno_empresa', $data['id_turno_empresa']);
+		!isset($data['id_turno']) OR $this->db->where('id_turno', $data['id_turno']);
 		$this->db->where('id_empresa', $data['id_empresa'])
-			->update($tbl['turnos_empresas'], $data);
+			->update($tbl['turnos'], $data);
 		$affected = $this->db->affected_rows();
 
 		$error = $this->db->error();

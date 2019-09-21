@@ -157,7 +157,11 @@ class IS_Controller extends MX_Controller {
         $data['JS_PATH']        = base_url(get_var('path_js'));
         $data['DOCS_PATH']      = base_url(get_var("path_docs"));
 
-        return $this->parser->parse($view.$ext, $data, $return);
+        $template = $this->parser->parse($view.$ext, $data, TRUE);
+
+        if ($return) return $template;
+
+        echo $template;
     }
 
     private function get_file_includes(array $files) {

@@ -347,15 +347,15 @@ class Empresas extends IS_Controller {
 
 	public function get_turnos_empresa() {
 		$sqlData = $this->input->post();
-		$contactosRH = $this->db_empresas->get_turnos($sqlData);
+		$turnos = $this->db_empresas->get_turnos($sqlData);
 		
-		echo json_encode($contactosRH);
+		echo json_encode($turnos);
 	}
 
 	public function process_remove_turno() {
 		try {
 			$sqlData = array(
-				 'id_turno_empresa' => $this->input->post('id_turno_empresa')
+				 'id_turno' => $this->input->post('id_turno')
 				,'id_empresa' 		=> $this->input->post('id_empresa')
 				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
 				,'timestamp_edit' 	=> timestamp()
@@ -398,7 +398,7 @@ class Empresas extends IS_Controller {
 		$turno 	 = $this->db_empresas->get_turnos($sqlData, FALSE);
 
 		$dataView = array_merge($dataView, $empresa, $turno);
-		$dataPost = array('id_empresa'=> $empresa['id_empresa'], 'id_turno_empresa'=> $turno['id_turno_empresa']);
+		$dataPost = array('id_empresa'=> $empresa['id_empresa'], 'id_turno'=> $turno['id_turno']);
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
 		$this->parser_view("{$this->modulo}/modal-update-turno", $dataView, FALSE);
@@ -448,6 +448,21 @@ class Empresas extends IS_Controller {
 				,'msg' 		=> $e->getMessage()
 				,'type' 	=> $e->getTypeMessage()
 			);
+		}
+
+		echo json_encode($response);
+	}
+
+	public function get_turnos_empresa_autocomplete() {
+		$response = array();
+		$sqlData = $this->input->post();
+		$turnos = $this->db_empresas->get_turnos($sqlData);
+		
+		foreach ($turnos as $turno) {
+			$response[] = [
+				 'value' => $turno['id_turno']
+				,'text'  => $turno['turno']
+			];
 		}
 
 		echo json_encode($response);

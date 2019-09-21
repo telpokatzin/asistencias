@@ -9,7 +9,7 @@ jQuery(function($) {
 	    	,data: {dataEncription: $('#dataEncription').val()}
 		}
 		,createdRow: function (row, data, dataIndex) {
-            $(row).data({id_turno_empresa: data.id_turno_empresa, id_empresa: data.id_empresa});
+            $(row).data({id_turno: data.id_turno, id_empresa: data.id_empresa});
         }
 		,columns: [
 			 {data: 'turno'}
