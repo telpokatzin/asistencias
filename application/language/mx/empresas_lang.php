@@ -18,3 +18,4 @@ $lang['empresas_insert_crh_success'] 	= '¡El contacto RH se ha guardado con éx
 $lang['empresas_remove_turno_success'] 	= '¡El turno de la empresa se ha quitado con éxito!';
 $lang['empresas_add_contactorh'] 		= 'Agregar como Contacto RH';
 $lang['empresas_indicar_dia_habil'] 	= 'Indica los días hábiles de la semana';
+$lang['empresas_turno_asignado_success']= '¡Turno actualizado con éxito!';

@@ -181,7 +181,7 @@ class Empresas extends IS_Controller {
 		$config  = $this->db_empresas->get_config_empresas($sqlData);
 
 		$dataView['dias-habiles'] = self::get_dias_habiles_empresa($config);
-		$dataView = array_merge($dataView, $empresa);
+		$dataView = array_merge($dataView, $empresa, $config);
 		$dataPost = array('id_empresa'=> $empresa['id_empresa']);
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
@@ -453,16 +453,30 @@ class Empresas extends IS_Controller {
 		echo json_encode($response);
 	}
 
-	public function get_turnos_empresa_autocomplete() {
-		$response = array();
-		$sqlData = $this->input->post();
-		$turnos = $this->db_empresas->get_turnos($sqlData);
-		
-		foreach ($turnos as $turno) {
-			$response[] = [
-				 'value' => $turno['id_turno']
-				,'text'  => $turno['turno']
-			];
+	public function process_save_turno_empresa() {
+		try {
+			$sqlData = array(
+				 'id_empresa' 		=> $this->input->post('id_empresa')
+				,'id_turno' 		=> $this->input->post('id_turno')
+				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
+				,'timestamp' 		=> timestamp()
+			);
+			$update = $this->db_empresas->update_config_empresa($sqlData);
+			$update OR setException();
+			
+			$response = array(
+				 'success' 	=> TRUE
+				,'title' 	=> lang('general_exito')
+				,'msg' 		=> lang('empresas_turno_asignado_success')
+				,'type' 	=> 'success'
+			);
+		} catch (IS_Exception $e) {
+			$response = array(
+				 'success' 	=> FALSE
+				,'title' 	=> $e->getTitle()
+				,'msg' 		=> $e->getMessage()
+				,'type' 	=> $e->getTypeMessage()
+			);
 		}
 
 		echo json_encode($response);

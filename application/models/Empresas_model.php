@@ -113,7 +113,6 @@ class Empresas_model extends IS_Model {
 		!isset($data['id_turno']) 	OR $this->db->where('id_turno', $data['id_turno']);
 		!isset($data['id_empresa']) OR $this->db->where('id_empresa', $data['id_empresa']);
 		!isset($data['turno']) 		OR $this->db->where('turno', $data['turno']);
-		!isset($data['like']) 		OR $this->db->like('turno', $data['like']);
 		$request = $this->db->select("*
 				,TIME_FORMAT(entrada, '%h:%i %p') AS custom_entrada
 				,TIME_FORMAT(salida, '%h:%i %p') AS custom_salida

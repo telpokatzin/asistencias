@@ -82,7 +82,12 @@ function isInt(x) {
 }
 
 function initDataTable(element, options) {
-    var element = element ? element : IS.initializer.dataTable;
+    var element = element || IS.initializer.dataTable;
+    var options = options || {};
+    var initComplete = (options.initComplete != undefined && options.initComplete.constructor === Function) 
+            ? options.initComplete 
+            : function() {};
+
     var Opdefault = {
          dom: 'lBfrtip'
         ,ajax: null
@@ -98,7 +103,29 @@ function initDataTable(element, options) {
                 { text: '<i class="material-icons">add</i>', className: 'btn-success addItem tooltips hide' }
             ]
         }
-        ,initComplete: function(settings, json) {
+        ,language: {
+            url: base_url('assets/js/language/'+ language +'/datatables_'+ language +'.json')
+        }
+        ,lengthMenu: [
+          [10, 25, 50, -1],
+          [10, 25, 50, "All"]
+        ]
+        ,responsive: true
+        ,searching:  true
+        ,scrollX:    false
+        ,details:    true
+        ,iDisplayLength: 10
+        ,bFilter: false
+        ,ordering: true
+        ,processing: false
+        ,btnDownload: false
+        ,bntDownloadClass: ''
+        ,btnAdd: false
+        ,btnAddClass: ''
+    };
+
+    var settings = _.extend({}, Opdefault, options, {
+        initComplete: function(settings, json) {
             var config       = settings.oInit;
             var recordsTotal = settings.fnRecordsTotal();
             var toolBar      = $(settings.nTableWrapper).find('.dt-buttons');
@@ -125,30 +152,9 @@ function initDataTable(element, options) {
             toolBar.find('a.hide').remove();
             
             initTooltips($(settings.nTableWrapper).find('.tooltips'));
+            initComplete(settings, json);
         }
-        ,language: {
-            url: base_url('assets/js/language/'+ language +'/datatables_'+ language +'.json')
-        }
-        ,lengthMenu: [
-          [10, 25, 50, -1],
-          [10, 25, 50, "All"]
-        ]
-        ,responsive: true
-        ,searching:  true
-        ,scrollX:    false
-        ,details:    true
-        ,iDisplayLength: 10
-        ,bFilter: false
-        ,ordering: true
-        ,processing: false
-        ,btnDownload: false
-        ,bntDownloadClass: ''
-        ,btnAdd: false
-        ,btnAddClass: ''
-    };
-
-    options = options || {};
-    var settings = $.extend({}, Opdefault, options);
+    });
     if (settings.ajax !== null) {
         settings.ajax.method = 'post';
         settings.ajax.dataType = 'json';

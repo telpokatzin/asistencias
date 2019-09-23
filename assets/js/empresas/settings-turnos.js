@@ -1,7 +1,30 @@
 jQuery(function($) {
 	//Tabla Turnos de la empresa
 	initDataTable('#turnos', {
-		 ajax: {
+		initComplete: function(settings, json) {
+			//TURNO AUTOCOMPLETE
+			var dataTb = settings.oInstance.fnGetData();
+			var list_turnos = _.map(dataTb, function(obj, key) {
+			 	return _.extend(obj, {value: obj.id_turno, text: obj.turno});
+			});
+
+			$('#turno').autoComplete({
+				 minLength: 2
+				,events: {
+					search: _.debounce(function() {
+						var qry = arguments[0], 
+						callback = arguments[1];
+				
+						turnos = _.filter(list_turnos, function (obj) {
+							return obj.turno.search(new RegExp('['+qry+']', 'gi')) !== -1;
+						});
+
+						callback(turnos);
+					}, 300)
+				}
+			});
+		}
+		,ajax: {
 		 	url: base_url('empresas/get_turnos_empresa')
 	    	,dataSrc: ''
 	    	,method: 'post'

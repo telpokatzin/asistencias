@@ -1,38 +1,51 @@
 jQuery(function($) {
 	//TURNO AUTOCOMPLETE
-	$('#turno').autoComplete({
-		events: {
-			search: _.debounce(function(){
-				var qry = arguments[0], 
-					callback = arguments[1];
-				$.fn.formAjaxSend({
-			 		 url: base_url('empresas/get_turnos_empresa_autocomplete')
-			 		,data: {dataEncription: $('#dataEncription').val(), like: qry}
-			 		,blockScreen: false
-			 		,isPromise: true
-				}).done(function(response) {
-					callback(response);
-				});
-			}, 300)
-			,searchPost: function(result) {
-				return result;
-			}
-		}
+	$('#turno').on('autocomplete.select', function(evt, item) {
+		$.fn.formAjaxSend({
+	 		 url: base_url('empresas/process_save_turno_empresa')
+	 		,data: item
+	 		,blockScreen: false
+	 		,isPromise: true
+		}).done(function(response) {
+			response.success 
+				? showNotify(response.msg, response.type, 'notification_important')
+				: ISSwal(response.title, response.msg, response.type);
+		});
 	});
+
+	// .autoComplete({
+	// 	events: {
+	// 		search: _.debounce(function(){
+	// 			var qry = arguments[0], 
+	// 				callback = arguments[1];
+	// 			$.fn.formAjaxSend({
+	// 		 		 url: base_url('empresas/get_turnos_empresa_autocomplete')
+	// 		 		,data: {dataEncription: $('#dataEncription').val(), like: qry}
+	// 		 		,blockScreen: false
+	// 		 		,isPromise: true
+	// 			}).done(function(response) {
+	// 				callback(response);
+	// 			});
+	// 		}, 300)
+	// 		,searchPost: function(result) {
+	// 			return result;
+	// 		}
+	// 	}
+	// });
 
 	$('.main-panel')
 
-	 .on('dblclick blur', 'input#turno', function(event) {
-	 	$(this).prop('disabled', !(event.type == 'dblclick'));
-	 	if (event.type == 'dblclick') {
-	 		($(this).val() == IS.lang.general_undefined) && $(this).val('');
-	 		$(this).focus();
-	 	}
+	 // .on('dblclick blur', 'input#turno', function(event) {
+	 // 	$(this).prop('disabled', !(event.type == 'dblclick'));
+	 // 	if (event.type == 'dblclick') {
+	 // 		($(this).val() == IS.lang.general_undefined) && $(this).val('');
+	 // 		$(this).focus();
+	 // 	}
 
-	 	if (event.type == 'focusout') {
-	 		($(this).val().trim() == '') && $(this).val(IS.lang.general_undefined);
-	 	}
-	 })
+	 // 	if (event.type == 'focusout') {
+	 // 		($(this).val().trim() == '') && $(this).val(IS.lang.general_undefined);
+	 // 	}
+	 // })
 
 	/**
 	 * Element: <li.weekDay>
