@@ -27,8 +27,6 @@ jQuery(function($) {
 		,ajax: {
 		 	url: base_url('empresas/get_turnos_empresa')
 	    	,dataSrc: ''
-	    	,method: 'post'
-	    	,dataType: 'json'
 	    	,data: {dataEncription: $('#dataEncription').val()}
 		}
 		,createdRow: function (row, data, dataIndex) {
@@ -52,7 +50,7 @@ jQuery(function($) {
 	 * Event: Click
 	 * Description: Abrimos el modal para la edisión del turno
 	 */
-	 .on('click', '#turnos a.edit', function(e) {
+	.on('click', '#turnos a.edit', function(e) {
 	 	var tr = $(this).closest('tr');
 
 	 	$.fn.formAjaxSend({
@@ -61,7 +59,11 @@ jQuery(function($) {
 			,dataType: 'html'
 	 		,success: function(response) {
 				$('#content-modals').html(response);
-				$('#content-modals .modal').modal();
+				initModal('.modal', {
+					onOpenEnd: function() {
+						initTimePicker();
+					}
+				});
 	 		}
 	 	});
 
@@ -122,24 +124,28 @@ jQuery(function($) {
 	$('#content-modals')//EVENTO DE LOS MODALES
 
 	/**
-	 * Element: <form.form-update-crh>
+	 * Element: <form.form-update-turno>
 	 * Event: submit
-	 * Description: Enviamos los datos de actualización del contacto RH
+	 * Description: Enviamos los datos de actualización del turno
 	 */
-	// .on('submit', '.form-update-crh', function(e) {
-	// 	if ($(this).valid()) {
-	// 		$(this).formAjaxSend({
-	// 			success: function(response) {
-	// 				if (response.success) {
- //    					showNotify(response.msg, response.type, 'notification_important');
- //    					IS.init.dataTable['turnos'].ajax.reload(null, false);
- //    					$('.modal.show').modal('hide');
- //    				} else ISSwal(response.title, response.msg, response.type);
-	// 			}
-	// 		})
-	// 	}
-	// 	e.preventDefault();
-	// })
+	.on('submit', '.form-update-turno', function(e) {
+		if ($(this).valid()) {
+			var entrada = IS.init.timepicker['entrada'].data('DateTimePicker').date();
+			var salida  = IS.init.timepicker['salida'].data('DateTimePicker').date();
+
+			$(this).formAjaxSend({
+				 data: {entrada: entrada.format('HH:mm:ss'), salida: salida.format('HH:mm:ss')}
+				,success: function(response) {
+					if (response.success) {
+    					showNotify(response.msg, response.type, 'notification_important');
+    					IS.init.dataTable['turnos'].ajax.reload(null, false);
+    					$('.modal.show').modal('hide');
+    				} else ISSwal(response.title, response.msg, response.type);
+				}
+			})
+		}
+		e.preventDefault();
+	})
 
 	/**
 	 * Element: <form.form-new-crh>

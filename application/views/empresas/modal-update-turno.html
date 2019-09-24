@@ -1,6 +1,6 @@
 <div class="modal fade" id="modal-update-turno" tabindex="-1" role="dialog" aria-labelledby="update-turno" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <form class="form-update-turno form-validate" action="{base_url}empresas/process_update_CRH">
+    <div class="modal-dialog" role="document" style="margin-top: 1.75rem;">
+        <form class="form-update-turno form-validate" action="{base_url}empresas/process_update_turno">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="update-turno">{empresas_update_empresa}</h5>
@@ -9,10 +9,6 @@
                     </button>
                 </div>
                 <div class="modal-body padding-top-5">
-                    <div class="form-group">
-                        <label for="empresa" class="col-form-label">{empresas_empresa}:</label>
-                        <input type="text" class="form-control validate required" id="empresa" name="empresa" value="{empresa}" readonly>
-                    </div>
                     <div class="form-group">
                         <label for="turno" class="col-form-label">{empresas_turno}:</label>
                         <input type="text" class="form-control validate required" id="turno" name="turno" value="{turno}">
@@ -24,6 +20,13 @@
                     <div class="form-group">
                         <label for="salida" class="col-form-label">{general_hora_salida}:</label>
                         <input type="text" class="form-control validate required timepicker" id="salida" name="salida" value="{salida}">
+                    </div>
+                    <div class="form-group">
+                        <label for="tolerancia" class="col-form-label">{empresas_tolerancia}:</label>
+                        <input type="text" class="form-control validate required" id="tolerancia" name="tolerancia" value="{tolerancia}" aria-describedby="toleranciaHelper">
+                        <small id="toleranciaHelper" class="form-text text-muted">
+                          {empresas_message2}
+                        </small>
                     </div>
                 </div>
                 <div class="modal-footer">

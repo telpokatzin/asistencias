@@ -51,12 +51,7 @@ class Empresas extends IS_Controller {
 			$this->db->trans_commit();
 		} catch (IS_Exception $e) {
 			$this->db->trans_rollback();
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -92,12 +87,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -145,12 +135,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -171,6 +156,7 @@ class Empresas extends IS_Controller {
 		$dataView['general_hora_salida'] 	= lang('general_hora_salida');
 		$dataView['general_acciones'] 		= lang('general_acciones');
 		$dataView['general_undefined'] 		= lang('general_undefined');
+		$dataView['empresas_message1'] 		= lang('empresas_message1');
 		$dataView['general_editar'] 		= lang('general_editar');
 		$dataView['general_delete'] 		= lang('general_delete');
 		$dataView['section'] 				= lang('empresas_settings');
@@ -245,12 +231,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -281,12 +262,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -334,12 +310,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -371,12 +342,7 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -385,20 +351,20 @@ class Empresas extends IS_Controller {
 	public function get_modal_update_turno() {
 		//LANG
 		$dataView['empresas_update_empresa'] = lang('empresas_update_empresa');
-		$dataView['general_empresa'] 		 = lang('general_empresa');
 		$dataView['empresas_turno'] 		 = lang('empresas_turno');
 		$dataView['general_hora_entrada'] 	 = lang('general_hora_entrada');
 		$dataView['general_hora_salida'] 	 = lang('general_hora_salida');
+		$dataView['empresas_tolerancia'] 	 = lang('empresas_tolerancia');
+		$dataView['empresas_message2'] 	 	 = lang('empresas_message2');
 		$dataView['general_close'] 			 = lang('general_close');
 		$dataView['general_save'] 			 = lang('general_save');
 
 		//DATA
 		$sqlData = $this->input->post();
-		$empresa = $this->db_empresas->get_empresa($sqlData, FALSE);
 		$turno 	 = $this->db_empresas->get_turnos($sqlData, FALSE);
 
-		$dataView = array_merge($dataView, $empresa, $turno);
-		$dataPost = array('id_empresa'=> $empresa['id_empresa'], 'id_turno'=> $turno['id_turno']);
+		$dataView = array_merge($dataView, $turno);
+		$dataPost = array('id_empresa'=> $sqlData['id_empresa'], 'id_turno'=> $sqlData['id_turno']);
 		$dataView['dataEncription'] = $this->encryption->encrypt(json_encode($dataPost));
 
 		$this->parser_view("{$this->modulo}/modal-update-turno", $dataView, FALSE);
@@ -442,12 +408,7 @@ class Empresas extends IS_Controller {
 			);
 			
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
-			);
+			$response = getException($e);
 		}
 
 		echo json_encode($response);
@@ -471,12 +432,40 @@ class Empresas extends IS_Controller {
 				,'type' 	=> 'success'
 			);
 		} catch (IS_Exception $e) {
-			$response = array(
-				 'success' 	=> FALSE
-				,'title' 	=> $e->getTitle()
-				,'msg' 		=> $e->getMessage()
-				,'type' 	=> $e->getTypeMessage()
+			$response = getException($e);
+		}
+
+		echo json_encode($response);
+	}
+
+	public function process_update_turno() {
+		try {
+			$sqlData = array(
+				 'diferent' 		=> $this->input->post('id_turno')
+				,'id_empresa' 		=> $this->input->post('id_empresa')
+				,'turno' 			=> $this->input->post('turno')
+				,'entrada' 			=> $this->input->post('entrada')
+				,'salida' 			=> $this->input->post('salida')
+				,'tolerancia' 		=> $this->input->post('tolerancia')
+				,'id_usuario_edit' 	=> $this->session->userdata('id_usuario')
+				,'timestamp' 		=> timestamp()
 			);
+			$exist = $this->db_empresas->get_turnos($sqlData);
+			!$exist OR setException(lang('empresas_turno_duplicado'), lang('general_alerta'), 'warning');
+			unset($sqlData['diferent']);
+			$sqlData['id_turno'] = $this->input->post('id_turno');
+
+			$update = $this->db_empresas->update_turno($sqlData);
+			$update OR setException();
+			
+			$response = array(
+				 'success' 	=> TRUE
+				,'title' 	=> lang('general_exito')
+				,'msg' 		=> lang('empresas_turno_update_success')
+				,'type' 	=> 'success'
+			);
+		} catch (IS_Exception $e) {
+			$response = getException($e);
 		}
 
 		echo json_encode($response);

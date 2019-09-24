@@ -143,12 +143,14 @@ class Empresas_model extends IS_Model {
 	public function get_config_empresas(array $data, $all=FALSE) {
 		$tbl = $this->tbl;
 
-		!isset($data['id_configuracion_empresa']) 	OR $this->db->where('id_configuracion_empresa', $data['id_configuracion_empresa']);
-		!isset($data['id_empresa']) 	OR $this->db->where('id_empresa', $data['id_empresa']);
-		$request = $this->db->select('*')
-			->where('activo', 1)
-			->where('id_empresa !=', 1)
-			->get($tbl['configuraciones_empresas']);
+		!isset($data['id_configuracion_empresa']) 	OR $this->db->where('TCE.id_configuracion_empresa', $data['id_configuracion_empresa']);
+		!isset($data['id_empresa']) 	OR $this->db->where('TCE.id_empresa', $data['id_empresa']);
+		$request = $this->db->select('TCE.*, TT.turno')
+			->from("$tbl[configuraciones_empresas] AS TCE")
+			->join("$tbl[turnos] AS TT", 'TCE.id_turno=TT.id_turno AND TT.activo=1', 'LEFT')
+			->where('TCE.activo', 1)
+			->where('TCE.id_empresa !=', 1)
+			->get();
 
 		return $all ? $request->result_array() : $request->row_array();
 	}

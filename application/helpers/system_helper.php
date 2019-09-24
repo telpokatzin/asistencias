@@ -66,7 +66,6 @@ if(!function_exists('LogTxt')){
 	}
 }
 
-
 if ( ! function_exists('set_exception')) {
 	/**
 	 * generamos la excepcion 
@@ -76,6 +75,21 @@ if ( ! function_exists('set_exception')) {
 	 **/
 	function setException($message='', $title=NULL, $typeMsg=NULL, $class=NULL) {
 		throw new IS_Exception($message, $title, $typeMsg, $class);
+	}
+}
+
+if ( ! function_exists('getException')) {
+	/**
+	 * Obtenemos la excepcion para mandale al usuario el error generado
+	 * @param String $exception
+	 **/
+	function getException($exception) {
+		return [
+			 'success' 	=> FALSE
+			,'title' 	=> $exception->getTitle()
+			,'msg' 		=> $exception->getMessage()
+			,'type' 	=> $exception->getTypeMessage()
+		];
 	}
 }
 

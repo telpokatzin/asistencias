@@ -25,15 +25,16 @@ jQuery(function($) {
             $(element).closest('.form-group').removeClass('has-success').addClass('has-danger');
             $(element).closest('.form-check').removeClass('has-success').addClass('has-danger');
         },
-        success: function(element) {
+        success: function(label, element) {
             $(element).closest('.input-group').removeClass('has-danger').addClass('has-success');
             $(element).closest('.form-group').removeClass('has-danger').addClass('has-success');
             $(element).closest('.form-check').removeClass('has-danger').addClass('has-success');
+            label.remove();
         },
         errorPlacement: function(error, element) {
             $(element).closest('.input-group').append(error);
             $(element).closest('.form-group').append(error);
-        },
+        }
     });
 
     /*******************************************/
@@ -261,42 +262,54 @@ function isJsonStr(str) {
 }
 
 function initDatePicker(el, options) {
+    options = options || {};
     var selector = el ? el : IS.initializer.datepicker;
     var Opdefault = {
-         closeOnSelect: true
+        format: "DD-MM-YYYY",
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: "fa fa-chevron-left",
+            next: "fa fa-chevron-right",
+            today: "fa fa-screenshot",
+            clear: "fa fa-trash",
+            close: "fa fa-remove"
+        }
     };
 
-    options = options ? options : {};
     $.extend(Opdefault, options);
     var elems = document.querySelectorAll(selector);
     $.each(elems, function(index, el) {
         var key = $(el).prop('id');
-        IS.init.datepicker[key] = $(el).pickadate(Opdefault);
-        $(el).on('mousedown',function(event){ event.preventDefault(); });
+        IS.init.datepicker[key] = $(el).datetimepicker(Opdefault);
     });
 }
 
 function initTimePicker(el, options) {
+    options = options || {};
     var selector = el ? el : IS.initializer.timepicker;
     var elems = document.querySelectorAll(selector);
     var Opdefault = {
-         autoclose: true
-        ,twelvehour: true
-        ,donetext: jQuery.fn.pickadate.defaults.done
-        ,cleartext: jQuery.fn.pickadate.defaults.clear
-        ,canceltext: jQuery.fn.pickadate.defaults.close
-        ,formatSubmit: 'HH:i'
-        ,showAMPM: false
+        format: "h:mm A",
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-chevron-up",
+            down: "fa fa-chevron-down",
+            previous: "fa fa-chevron-left",
+            next: "fa fa-chevron-right",
+            today: "fa fa-screenshot",
+            clear: "fa fa-trash",
+            close: "fa fa-remove"
+        }
     };
 
-    options = options ? options : {};
     $.extend(Opdefault, options);
     $.each(elems, function(index, el) {
         var key = $(el).prop('id');
-        IS.init.timepicker[key] = $(el).pickatime(Opdefault)
-            .on('mousedown',function(event){
-                event.preventDefault();
-            });
+        IS.init.timepicker[key] = $(el).datetimepicker(Opdefault);
     });
 }
 
